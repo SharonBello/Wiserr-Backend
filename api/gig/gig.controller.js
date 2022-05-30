@@ -4,11 +4,12 @@ const logger = require('../../services/logger.service')
 // GET LIST
 async function getGigs(req, res) {
   try {
-    logger.debug('Trying tog et gigs')
+    logger.debug('Trying to get gigs row 7')
     var queryParams = req.query;
+    // console.log('queryParams',queryParams )
     const gigs = await gigService.query(queryParams)
-    logger.debug('gig.controller 11 gigs', gigs)
-    res.json(gigs);
+    // logger.debug('gig.controller 11 gigs', gigs)
+    res.send(gigs);
   } catch (err) {
     logger.error('Failed to get gigs', err)
     res.status(500).send({ err: 'Failed to get gigs' })
@@ -17,8 +18,10 @@ async function getGigs(req, res) {
 
 // GET BY ID 
 async function getGigById(req, res) {
+  console.log('in get by id in gig controller')
   try {
     const gigId = req.params.id;
+    console.log('gigId in gig controller line 23', gigId)
     const gig = await gigService.getById(gigId)
     res.json(gig)
   } catch (err) {

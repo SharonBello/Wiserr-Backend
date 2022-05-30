@@ -6,20 +6,23 @@ const ObjectId = require('mongodb').ObjectId
 async function query(filterBy) {
     // console.log('filterBy in gig service query', filterBy)
     try {
+        // console.log('filterBy', filterBy)
         const criteria = _buildCriteria(filterBy)
         // const criteria = {}
-
+        // console.log('criteria in gig service row 12', criteria)
         const collection = await dbService.getCollection('gig')
-        // console.log('gig.service - line 13 - collection', collection)
+        // console.log('gig.service - line 14 - collection', collection)
 
-        let sortBy = filterBy.sortBy 
-        let sortType = 1
-        if(sortBy === 'recent') {
-            sortBy = 'createdAt'
-            sortType = -1
-        }
-        let gigs = await collection.find(criteria).sort({[sortBy]:sortType}).toArray()
-
+        // let sortBy = filterBy.sortBy 
+        // let sortType = 1
+        // if(sortBy === 'recent') {
+        //     sortBy = 'createdAt'
+        //     sortType = -1
+        // }
+        // let gigs = await collection.toArray()
+        let gigs = await collection.find(criteria).toArray()
+        // let gigs = await collection.find(criteria).sort({[sortBy]:sortType}).toArray()
+        // console.log('gigs', gigs)
         return gigs
     } catch (err) {
         logger.error('cannot find gigs', err)
@@ -38,14 +41,18 @@ function _buildCriteria(filterBy) {
             }
         ]
     }
-    if (filterBy.labels.length) {
-        const labels = filterBy.labels.split(',')
-        criteria.labels = {$all: labels}
+    if(filterBy.category){
+        txtCriteria = { $regex: filterBy.category, $options: 'i' }
+        criteria.category = txtCriteria
     }
+    // if (filterBy.labelslength) {
+    //     const labels = filterBy.labels.split(',')
+    //     criteria.labels = {$all: labels}
+    // }
 
-    if (filterBy.inStock) {
-        criteria.inStock =  JSON.parse(filterBy.inStock)
-    }
+    // if (filterBy.inStock) {
+    //     criteria.inStock =  JSON.parse(filterBy.inStock)
+    // }
 
     // const PAGE_SIZE = 3
     // if (filterBy.pageIdx !== undefined) {
@@ -60,9 +67,12 @@ function _buildCriteria(filterBy) {
 }
 
 async function getById(gigId) {
+    console.log('get by id in gig service' )
     try {
+        console.log('gigId in gig service row 66',gigId )
         const collection = await dbService.getCollection('gig')
-        const gig = collection.findOne({ _id: ObjectId(gigId) })
+        const gig = collection.findOne({ _id: gigId })
+        console.log('gig in gig service row 69', gig)
         return gig
     } catch (err) {
         logger.error(`while finding gig ${gigId}`, err)

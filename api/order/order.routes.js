@@ -9,10 +9,11 @@ const router = express.Router()
 
 router.get('/', log, getOrders)
 router.get('/:id', getOrderById)
-router.post('/', requireAuth, requireAdmin, addOrder)
-router.post('/:id', requireAuth, addReview)
-router.put('/', requireAuth, updateOrderRate)
-router.put('/:id', requireAuth, requireAdmin, updateOrder)
-router.delete('/:id',requireAdmin, requireAuth, removeOrder)
+router.post('/',  addOrder)
+router.post('/:id', addReview)
+router.put('/', updateOrderRate)
+router.put('/:id',  updateOrder)
+router.delete('/:id', removeOrder)
+// router.delete('/:id',requireAdmin, requireAuth, removeOrder)
 
 module.exports = router
