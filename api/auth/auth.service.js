@@ -4,10 +4,12 @@ const userService = require('../user/user.service')
 const logger = require('../../services/logger.service')
 const cryptr = new Cryptr(process.env.SECRET1 || 'Secret-Wiserr-1234')
 
-async function login(username, password) {
-    logger.debug(`auth.service - login with username: ${username}`)
+async function login(userName, password) {
+    logger.debug(`auth.service - login with username: ${userName}`)
+    // console.log('userName', userName)
+    // console.log('password', password)
 
-    const user = await userService.getByUsername(username)
+    const user = await userService.getByUsername(userName)
     if (!user) return Promise.reject('Invalid username or password')
     // TODO: un-comment for real login
     // const match = await bcrypt.compare(password, user.password)
@@ -18,17 +20,17 @@ async function login(username, password) {
     return user
 }
 
-async function signup({username, password, fullname, imgUrl}) {
+async function signup({userName, password, fullname, imgUrl}) {
     const saltRounds = 10
 
-    logger.debug(`auth.service - signup with username: ${username}, fullname: ${fullname}`)
-    if (!username || !password || !fullname) return Promise.reject('Missing required signup information')
+    logger.debug(`auth.service - signup with username: ${userName}, fullname: ${fullname}`)
+    if (!userName || !password || !fullname) return Promise.reject('Missing required signup information')
 
-    const userExist = await userService.getByUsername(username)
+    const userExist = await userService.getByUsername(userName)
     if (userExist) return Promise.reject('Username already taken')
 
     const hash = await bcrypt.hash(password, saltRounds)
-    return userService.add({ username, password: hash, fullname, imgUrl })
+    return userService.add({ userName, password: hash, fullname, imgUrl })
 }
 
 

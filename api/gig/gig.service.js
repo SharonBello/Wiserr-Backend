@@ -71,7 +71,7 @@ async function getById(gigId) {
     try {
         console.log('gigId in gig service row 66',gigId )
         const collection = await dbService.getCollection('gig')
-        const gig = collection.findOne({ _id: gigId })
+        const gig = collection.findOne({ _id: ObjectId(gigId) })
         console.log('gig in gig service row 69', gig)
         return gig
     } catch (err) {
@@ -109,7 +109,7 @@ async function addGigReview(gig, review) {
     try {
         let id = ObjectId(gig._id)
         const collection = await dbService.getCollection('gig')
-        const updatedGig = await collection.updateOne({ _id: id }, { $set: { ...gig, review: review } })
+        const updatedGig = await collection.updateOne({ _id: ObjectId(id) }, { $set: { ...gig, review: review } })
         return updatedGig
     } catch (err) {
         logger.error('cannot add review', err)
@@ -123,7 +123,7 @@ async function update(gig) {
         let id = ObjectId(gig._id)
         delete gig._id
         const collection = await dbService.getCollection('gig')
-        await collection.updateOne({ _id: id }, { $set: { ...gig } })
+        await collection.updateOne({ _id: ObjectId(id) }, { $set: { ...gig } })
         return gig
     } catch (err) {
         logger.error(`cannot update gig ${gigId}`, err)
@@ -135,7 +135,7 @@ async function updateGigRating(gig, rating) {
     try {
         let id = ObjectId(gig._id)
         const collection = await dbService.getCollection('gig')
-        const updatedGig = await collection.updateOne({ _id: id }, { $set: { ...gig, rating: rating } })
+        const updatedGig = await collection.updateOne({ _id: ObjectId(id) }, { $set: { ...gig, rating: rating } })
         console.log('gig.service - 134 gig', gig)
         console.log('gig.service - 135 updatedGig', updatedGig)
         return updatedGig

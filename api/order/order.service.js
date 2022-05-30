@@ -12,14 +12,15 @@ async function query(filterBy) {
         const collection = await dbService.getCollection('order')
         // console.log('order.service - line 13 - collection', collection)
 
-        let sortBy = filterBy.sortBy 
-        let sortType = 1
-        if(sortBy === 'recent') {
-            sortBy = 'createdAt'
-            sortType = -1
-        }
-        let orders = await collection.find(criteria).sort({[sortBy]:sortType}).toArray()
-
+        // let sortBy = filterBy.sortBy 
+        // let sortType = 1
+        // if(sortBy === 'recent') {
+        //     sortBy = 'createdAt'
+        //     sortType = -1
+        // }
+        let orders = await collection.find(criteria).toArray()
+        // let orders = await collection.find(criteria).sort({[sortBy]:sortType}).toArray()
+    console.log('orders in order service row 23',orders )
         return orders
     } catch (err) {
         logger.error('cannot find orders', err)
@@ -30,22 +31,22 @@ async function query(filterBy) {
 
 function _buildCriteria(filterBy) {
     let criteria = {}
-    if (filterBy.txt) {
-        const txtCriteria = { $regex: filterBy.txt, $options: 'i' }
-        criteria.$or = [
-            {
-                name: txtCriteria
-            }
-        ]
-    }
-    if (filterBy.labels.length) {
-        const labels = filterBy.labels.split(',')
-        criteria.labels = {$all: labels}
-    }
+    // if (filterBy.txt) {
+    //     const txtCriteria = { $regex: filterBy.txt, $options: 'i' }
+    //     criteria.$or = [
+    //         {
+    //             name: txtCriteria
+    //         }
+    //     ]
+    // }
+    // if (filterBy.labels.length) {
+    //     const labels = filterBy.labels.split(',')
+    //     criteria.labels = {$all: labels}
+    // }
 
-    if (filterBy.inStock) {
-        criteria.inStock =  JSON.parse(filterBy.inStock)
-    }
+    // if (filterBy.inStock) {
+    //     criteria.inStock =  JSON.parse(filterBy.inStock)
+    // }
 
     // const PAGE_SIZE = 3
     // if (filterBy.pageIdx !== undefined) {
@@ -113,10 +114,10 @@ async function update(order) {
         let id = ObjectId(order._id)
         delete order._id
         const collection = await dbService.getCollection('order')
-        await collection.updateOne({ _id: id }, { $set: { ...order } })
+        await collection.updateOne({ _id: ObjectId(id) }, { $set: { ...order } })
         return order
     } catch (err) {
-        logger.error(`cannot update order ${orderId}`, err)
+        logger.error(`cannot update order ${order._Id}`, err)
         throw err
     }
 }
@@ -125,7 +126,7 @@ async function updateOrderRating(order, rating) {
     try {
         let id = ObjectId(order._id)
         const collection = await dbService.getCollection('order')
-        const updatedOrder = await collection.updateOne({ _id: id }, { $set: { ...order, rating: rating } })
+        const updatedOrder = await collection.updateOne({ _id: ObjectId(id) }, { $set: { ...order, rating: rating } })
         console.log('order.service - 134 order', order)
         console.log('order.service - 135 updatedOrder', updatedOrder)
         return updatedOrder

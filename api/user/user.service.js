@@ -36,13 +36,14 @@ async function getById(userId) {
     try {
         const collection = await dbService.getCollection('user')
         const user = await collection.findOne({ _id: ObjectId(userId) })
+        console.log('user in user service row 39', user)
         delete user.password
 
-        user.givenReviews = await reviewService.query({ byUserId: ObjectId(user._id) })
-        user.givenReviews = user.givenReviews.map(review => {
-            delete review.byUser
-            return review
-        })
+        // user.givenReviews = await reviewService.query({ byUserId: ObjectId(user._id) })
+        // user.givenReviews = user.givenReviews.map(review => {
+        //     delete review.byUser
+        //     return review
+        // })
 
         return user
     } catch (err) {
@@ -50,13 +51,15 @@ async function getById(userId) {
         throw err
     }
 }
-async function getByUsername(username) {
+async function getByUsername(userName) {
     try {
+        // console.log('username in user service row 55', userName)
         const collection = await dbService.getCollection('user')
-        const user = await collection.findOne({ username })
+        const user = await collection.findOne({ userName })
+        // console.log('user in user service row 58', user)
         return user
     } catch (err) {
-        logger.error(`while finding user ${username}`, err)
+        logger.error(`while finding user ${userName}`, err)
         throw err
     }
 }
