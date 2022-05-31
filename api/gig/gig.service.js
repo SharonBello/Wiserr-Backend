@@ -4,7 +4,7 @@ const reviewService = require('../review/review.service')
 const ObjectId = require('mongodb').ObjectId
 
 async function query(filterBy) {
-    // console.log('filterBy in gig service query', filterBy)
+    console.log('filterBy in gig service query', filterBy)
     try {
         // console.log('filterBy', filterBy)
         const criteria = _buildCriteria(filterBy)
@@ -13,15 +13,16 @@ async function query(filterBy) {
         const collection = await dbService.getCollection('gig')
         // console.log('gig.service - line 14 - collection', collection)
 
-        // let sortBy = filterBy.sortBy 
-        // let sortType = 1
-        // if(sortBy === 'recent') {
+        let sortBy = filterBy.sortBy 
+        let sortType = 1
+        // if(sortBy === 'title') {
         //     sortBy = 'createdAt'
         //     sortType = -1
         // }
         // let gigs = await collection.toArray()
-        let gigs = await collection.find(criteria).toArray()
-        // let gigs = await collection.find(criteria).sort({[sortBy]:sortType}).toArray()
+        // let gigs = await collection.find(criteria).toArray()
+        console.log('sortBy row 24 gig service',sortBy )
+        let gigs = await collection.find(criteria).sort({[sortBy]:sortType}).toArray()
         // console.log('gigs', gigs)
         return gigs
     } catch (err) {
