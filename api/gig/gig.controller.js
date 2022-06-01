@@ -4,7 +4,7 @@ const logger = require('../../services/logger.service')
 // GET LIST
 async function getGigs(req, res) {
   try {
-    logger.debug('Trying to get gigs row 7')
+    // logger.debug('Trying to get gigs row 7')
     var queryParams = req.query;
     // console.log('queryParams',queryParams )
     const gigs = await gigService.query(queryParams)
@@ -34,9 +34,9 @@ async function getGigById(req, res) {
 async function addGig(req, res) {
   try {
     const gig = req.body;
-    logger.info('from gig.controller - addGig(req, res)', gig)
+    // logger.info('from gig.controller - addGig(req, res)', gig)
     const addedGig = await gigService.add(gig)
-    logger.info('from gig.controller - addGig(req, res)', addedGig)
+    // logger.info('from gig.controller - addGig(req, res)', addedGig)
     res.json(addedGig)
   } catch (err) {
     logger.error('Failed to add gig', err)
@@ -59,12 +59,15 @@ async function addReview(req, res) {
 
 // PUT (Update gig)
 async function updateGig(req, res) {
-  console.log('update gig in gig controller row 62', req.body)
+  // console.log('in updategig in gig controller')
+  // console.log('update gig in gig controller row 62', req.body)
   try {
     const gig = req.body;
     const updatedGig = await gigService.update(gig)
+    // console.log('updatedGig in gig controller row 66', updatedGig)
     res.json(updatedGig)
   } catch (err) {
+    // console.log('update gig in gig controller row 69', req)
     logger.error('Failed to update gig', err)
     res.status(500).send({ err: 'Failed to update gig' })
   }
@@ -77,8 +80,8 @@ async function updateGigRate(req, res) {
     // console.log('gig.controller 75 - gig',gig )
     // console.log('gig.controller 75 - rating', rating ) 
     // const updatedRate = await gigService.updateUserRating(gig, rating)
-    // console.log('gig.controller 75 - updatedRate',updatedRate )
-    res.json(updatedRate)
+    // console.log('gig.controller 75 - updatedRate', updatedRate)
+    // res.json(updatedRate)
   } catch (err) {
     logger.error('Failed to update gig', err)
     res.status(500).send({ err: 'Failed to update gig' })
@@ -87,7 +90,7 @@ async function updateGigRate(req, res) {
 
 // DELETE (Remove gig)
 async function removeGig(req, res) {
-  
+
   try {
     const gigId = req.params.id;
     const removedId = await gigService.remove(gigId)

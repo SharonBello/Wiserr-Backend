@@ -90,7 +90,7 @@ async function remove(gigId) {
     } catch (err) {
         logger.error(`cannot remove gig ${gigId}`, err)
         throw err
-    }
+    } 
 }
 
 async function add(gig) {
@@ -127,6 +127,7 @@ async function update(gig) {
         delete gig._id
         const collection = await dbService.getCollection('gig')
         await collection.updateOne({ _id: ObjectId(id) }, { $set: { ...gig } })
+        console.log('gig in gig service row 130', gig)
         return gig
     } catch (err) {
         logger.error(`cannot update gig ${gigId}`, err)

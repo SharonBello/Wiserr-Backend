@@ -6,14 +6,14 @@ const router = express.Router()
 
 // middleware that is specific to this router
 // router.use(requireAuth)
-
+// console.log('in gig reoutes')
 router.get('/', log, getGigs)
 router.get('/:id', getGigById)
-router.post('/',  addGig)
+router.post('/', addGig)
 // router.post('/', requireAuth, requireAdmin, addGig)
 router.post('/:id', addReview)
-router.put('/',  updateGigRate)
 router.put('/:id', updateGig)
-router.delete('/:id', removeGig)
+router.put('/', updateGigRate)
+// router.delete('/:id', removeGig)
 
 module.exports = router
