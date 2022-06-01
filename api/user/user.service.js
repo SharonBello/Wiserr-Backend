@@ -36,7 +36,7 @@ async function getById(userId) {
     try {
         const collection = await dbService.getCollection('user')
         const user = await collection.findOne({ _id: ObjectId(userId) })
-        console.log('user in user service row 39', user)
+        // console.log('user in user service row 39', user)
         delete user.password
 
         // user.givenReviews = await reviewService.query({ byUserId: ObjectId(user._id) })
@@ -52,11 +52,12 @@ async function getById(userId) {
     }
 }
 async function getByUsername(userName) {
+    // console.log('userName in row 55 user service',userName )
     try {
         // console.log('username in user service row 55', userName)
         const collection = await dbService.getCollection('user')
         const user = await collection.findOne({ userName })
-        // console.log('user in user service row 58', user)
+        // console.log('user in user service row 60', user)
         return user
     } catch (err) {
         logger.error(`while finding user ${userName}`, err)
@@ -79,8 +80,10 @@ async function update(user) {
         // peek only updatable properties
         const userToSave = {
             _id: ObjectId(user._id), // needed for the returnd obj
-            fullname: user.fullname,
-            score: user.score,
+            fullName: user.fullname,
+            isSeller: user.isSeller,
+            avgOrdersRate: user.avgOrdersRate,
+            // score: user.score,
         }
         const collection = await dbService.getCollection('user')
         await collection.updateOne({ _id: userToSave._id }, { $set: userToSave })
@@ -92,17 +95,29 @@ async function update(user) {
 }
 
 async function add(user) {
+    // console.log('user', user)
     try {
         // peek only updatable fields!
         const userToAdd = {
-            username: user.username,
+            userName: user.userName,
             password: user.password,
-            fullname: user.fullname,
+            fullName: user.fullname,
             imgUrl: user.imgUrl,
-            score: 100
+            level: 'Level 1 Seller',
+            email: user.userName+'@gmail.com',
+            avgOrdersRate: 0,
+            isSeller: false,
+            reviews: [],
+            google_account: '',
+            facebook_account: '',
+            twitter_account: ''
+            // score: 100
         }
+        // console.log('userToAdd at user service row 105',userToAdd )
         const collection = await dbService.getCollection('user')
+
         await collection.insertOne(userToAdd)
+        // console.log('userToAdd row 109',userToAdd )
         return userToAdd
     } catch (err) {
         logger.error('cannot insert user', err)
@@ -116,16 +131,16 @@ function _buildCriteria(filterBy) {
         const txtCriteria = { $regex: filterBy.txt, $options: 'i' }
         criteria.$or = [
             {
-                username: txtCriteria
+                userName: txtCriteria
             },
             {
-                fullname: txtCriteria
+                fullName: txtCriteria
             }
         ]
     }
-    if (filterBy.minBalance) {
-        criteria.score = { $gte: filterBy.minBalance }
-    }
+    // if (filterBy.minBalance) {
+    //     criteria.score = { $gte: filterBy.minBalance }
+    // }
     return criteria
 }
 

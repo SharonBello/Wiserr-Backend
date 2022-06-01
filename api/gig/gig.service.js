@@ -3,6 +3,7 @@ const logger = require('../../services/logger.service')
 const reviewService = require('../review/review.service')
 const ObjectId = require('mongodb').ObjectId
 
+
 async function query(filterBy) {
     console.log('filterBy in gig service query line 7', filterBy)
     try {
@@ -12,17 +13,17 @@ async function query(filterBy) {
         // console.log('criteria in gig service row 12', criteria)
         const collection = await dbService.getCollection('gig')
         // console.log('gig.service - line 14 - collection', collection)
-        
-        // let sortBy = filterBy.sortBy 
-        // let sortType = 1
-        // if(sortBy === 'recent') {
+
+        let sortBy = filterBy.sortBy 
+        let sortType = 1
+        // if(sortBy === 'title') {
         //     sortBy = 'createdAt'
         //     sortType = -1
         // }
         // let gigs = await collection.toArray()
-        console.log('criteria line 23', criteria)
-        let gigs = await collection.find(criteria).toArray()
-        // let gigs = await collection.find(criteria).sort({[sortBy]:sortType}).toArray()
+        // let gigs = await collection.find(criteria).toArray()
+        // console.log('sortBy row 24 gig service',sortBy )
+        let gigs = await collection.find(criteria).sort({[sortBy]:sortType}).toArray()
         // console.log('gigs', gigs)
         return gigs
     } catch (err) {
@@ -72,12 +73,12 @@ function _buildCriteria(filterBy) {
 }
 
 async function getById(gigId) {
-    console.log('get by id in gig service' )
+    // console.log('get by id in gig service' )
     try {
-        console.log('gigId in gig service row 66',gigId )
+        // console.log('gigId in gig service row 66',gigId )
         const collection = await dbService.getCollection('gig')
         const gig = collection.findOne({ _id: ObjectId(gigId) })
-        console.log('gig in gig service row 69', gig)
+        // console.log('gig in gig service row 69', gig)
         return gig
     } catch (err) {
         logger.error(`while finding gig ${gigId}`, err)
@@ -102,6 +103,7 @@ async function add(gig) {
         const collection = await dbService.getCollection('gig')
         // const addedGig = await collection.insertOne(gig)
         await collection.insertOne(gig)
+
         // addedGig = addedGig.ops.pop()
         return gig
     } catch (err) {
@@ -141,8 +143,8 @@ async function updateGigRating(gig, rating) {
         let id = ObjectId(gig._id)
         const collection = await dbService.getCollection('gig')
         const updatedGig = await collection.updateOne({ _id: ObjectId(id) }, { $set: { ...gig, rating: rating } })
-        console.log('gig.service - 134 gig', gig)
-        console.log('gig.service - 135 updatedGig', updatedGig)
+        // console.log('gig.service - 134 gig', gig)
+        // console.log('gig.service - 135 updatedGig', updatedGig)
         return updatedGig
     } catch (err) {
         logger.error('cannot add review', err)

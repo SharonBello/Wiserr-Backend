@@ -44,7 +44,7 @@ async function addReview(req, res) {
         // Give the user credit for adding a review
         // var user = await userService.getById(review.byUserId)
         // user.score += 10
-        loggedinUser.score += 10
+        // loggedinUser.score += 10
 
         loggedinUser = await userService.update(loggedinUser)
         review.byUser = loggedinUser
@@ -63,7 +63,7 @@ async function addReview(req, res) {
         res.send(review)
 
     } catch (err) {
-        console.log(err)
+        // console.log(err)
         logger.error('Failed to add review', err)
         res.status(500).send({ err: 'Failed to add review' })
     }
