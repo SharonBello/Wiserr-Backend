@@ -70,10 +70,10 @@ async function updateOrderRate(req, res) {
   try {
     const order = req.body;
     const rating = req.body;
-    console.log('order.controller 75 - order',order )
+    // console.log('order.controller 75 - order',order )
     // console.log('order.controller 75 - rating', rating ) 
     const updatedRate = await orderService.updateUserRating(order, rating)
-    console.log('order.controller 75 - updatedRate',updatedRate )
+    // console.log('order.controller 75 - updatedRate',updatedRate )
     res.json(updatedRate)
   } catch (err) {
     logger.error('Failed to update order', err)

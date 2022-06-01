@@ -18,10 +18,10 @@ async function getGigs(req, res) {
 
 // GET BY ID 
 async function getGigById(req, res) {
-  console.log('in get by id in gig controller')
+  // console.log('in get by id in gig controller')
   try {
     const gigId = req.params.id;
-    console.log('gigId in gig controller line 23', gigId)
+    // console.log('gigId in gig controller line 23', gigId)
     const gig = await gigService.getById(gigId)
     res.json(gig)
   } catch (err) {
@@ -59,6 +59,7 @@ async function addReview(req, res) {
 
 // PUT (Update gig)
 async function updateGig(req, res) {
+  console.log('update gig in gig controller row 62', req.body)
   try {
     const gig = req.body;
     const updatedGig = await gigService.update(gig)
@@ -73,10 +74,10 @@ async function updateGigRate(req, res) {
   try {
     const gig = req.body;
     const rating = req.body;
-    console.log('gig.controller 75 - gig',gig )
+    // console.log('gig.controller 75 - gig',gig )
     // console.log('gig.controller 75 - rating', rating ) 
-    const updatedRate = await gigService.updateUserRating(gig, rating)
-    console.log('gig.controller 75 - updatedRate',updatedRate )
+    // const updatedRate = await gigService.updateUserRating(gig, rating)
+    // console.log('gig.controller 75 - updatedRate',updatedRate )
     res.json(updatedRate)
   } catch (err) {
     logger.error('Failed to update gig', err)

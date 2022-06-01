@@ -20,7 +20,7 @@ async function query(filterBy) {
         // }
         let orders = await collection.find(criteria).toArray()
         // let orders = await collection.find(criteria).sort({[sortBy]:sortType}).toArray()
-    console.log('orders in order service row 23',orders )
+    // console.log('orders in order service row 23',orders )
         return orders
     } catch (err) {
         logger.error('cannot find orders', err)
@@ -127,8 +127,8 @@ async function updateOrderRating(order, rating) {
         let id = ObjectId(order._id)
         const collection = await dbService.getCollection('order')
         const updatedOrder = await collection.updateOne({ _id: ObjectId(id) }, { $set: { ...order, rating: rating } })
-        console.log('order.service - 134 order', order)
-        console.log('order.service - 135 updatedOrder', updatedOrder)
+        // console.log('order.service - 134 order', order)
+        // console.log('order.service - 135 updatedOrder', updatedOrder)
         return updatedOrder
     } catch (err) {
         logger.error('cannot add review', err)
