@@ -5,16 +5,17 @@ const ObjectId = require('mongodb').ObjectId
 const userService = require('../user/user.service');
 
 async function query(filterBy) {
-    console.log('filterBy in gig service query line 7', filterBy)
+    console.log('LINE 7 GIG.SERVICE:', filterBy)
     try {
-        console.log('filterBy line 9', filterBy)
-        const criteria = _buildCriteria(filterBy)
-        // const criteria = {}
-        // console.log('criteria in gig service row 12', criteria)
-        const collection = await dbService.getCollection('gig')
-        // console.log('gig.service - line 14 - collection', collection)
 
-        let sortBy = filterBy.sortBy 
+        const criteria = _buildCriteria(filterBy)
+
+        // const criteria = {}
+
+        const collection = await dbService.getCollection('gig')
+
+
+        let sortBy = filterBy.sortBy
         let sortType = 1
         // if(sortBy === 'title') {
         //     sortBy = 'createdAt'
@@ -22,9 +23,9 @@ async function query(filterBy) {
         // }
         // let gigs = await collection.toArray()
         // let gigs = await collection.find(criteria).toArray()
-        // console.log('sortBy row 24 gig service',sortBy )
-        let gigs = await collection.find(criteria).sort({[sortBy]:sortType}).toArray()
-        // console.log('gigs', gigs)
+
+        let gigs = await collection.find(criteria).sort({ [sortBy]: sortType }).toArray()
+
         return gigs
     } catch (err) {
         logger.error('cannot find gigs', err)
@@ -47,14 +48,18 @@ function _buildCriteria(filterBy) {
             }
         ]
     }
-    if(filterBy.category){
+    if (filterBy.priceMin && filterBy.priceMax < Infinity) {
+        criteria.price = ({ $gte: +filterBy.priceMin, $lte: +filterBy.priceMax })
+        console.log(criteria)
+    }
+
+    if (filterBy.category) {
         txtCriteria = { $regex: filterBy.category, $options: 'i' }
         criteria.category = txtCriteria
     }
-    // if (filterBy.labelslength) {
-    //     const labels = filterBy.labels.split(',')
-    //     criteria.labels = {$all: labels}
-    // }
+    if (filterBy.deliveryDate >= 1) {
+        criteria.daysToMake = {$lte: +filterBy.deliveryDate}
+    }
 
     // if (filterBy.inStock) {
     //     criteria.inStock =  JSON.parse(filterBy.inStock)
@@ -67,18 +72,18 @@ function _buildCriteria(filterBy) {
     //     gigs = gigs.slice(startIdx, startIdx + PAGE_SIZE)
     // }
 
-    // console.log('criteria', criteria, 'sortBy',filterBy.sortBy)
+
 
     return criteria
 }
 
 async function getById(gigId) {
-    // console.log('get by id in gig service' )
+
     try {
-        // console.log('gigId in gig service row 66',gigId )
+
         const collection = await dbService.getCollection('gig')
         const gig = collection.findOne({ _id: ObjectId(gigId) })
-        // console.log('gig in gig service row 69', gig)
+
         return gig
     } catch (err) {
         logger.error(`while finding gig ${gigId}`, err)
@@ -99,7 +104,7 @@ async function remove(gigId) {
 
 async function add(gig) {
     // TODO - add gig. description with make lorem
-    console.log('adddddddddddddddddddddddddddddddddddddddddd' )
+    
     try {
         const collection = await dbService.getCollection('gig')
         // const addedGig = await collection.insertOne(gig)
@@ -127,7 +132,6 @@ async function addGigReview(gig, review) {
 }
 
 async function update(gig) {
-    console.log('updateeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeee' )
     try {
         let id = ObjectId(gig._id)
         delete gig._id
@@ -146,8 +150,6 @@ async function updateGigRating(gig, rating) {
         let id = ObjectId(gig._id)
         const collection = await dbService.getCollection('gig')
         const updatedGig = await collection.updateOne({ _id: ObjectId(id) }, { $set: { ...gig, rating: rating } })
-        // console.log('gig.service - 134 gig', gig)
-        // console.log('gig.service - 135 updatedGig', updatedGig)
         return updatedGig
     } catch (err) {
         logger.error('cannot add review', err)

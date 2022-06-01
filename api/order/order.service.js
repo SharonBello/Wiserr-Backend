@@ -4,13 +4,13 @@ const reviewService = require('../review/review.service')
 const ObjectId = require('mongodb').ObjectId
 
 async function query(filterBy) {
-    // console.log('filterBy in order service query', filterBy)
+    
     try {
         const criteria = _buildCriteria(filterBy)
         // const criteria = {}
 
         const collection = await dbService.getCollection('order')
-        // console.log('order.service - line 13 - collection', collection)
+       
 
         // let sortBy = filterBy.sortBy 
         // let sortType = 1
@@ -20,7 +20,7 @@ async function query(filterBy) {
         // }
         let orders = await collection.find(criteria).toArray()
         // let orders = await collection.find(criteria).sort({[sortBy]:sortType}).toArray()
-    // console.log('orders in order service row 23',orders )
+    
         return orders
     } catch (err) {
         logger.error('cannot find orders', err)
@@ -55,7 +55,7 @@ function _buildCriteria(filterBy) {
     //     orders = orders.slice(startIdx, startIdx + PAGE_SIZE)
     // }
 
-    // console.log('criteria', criteria, 'sortBy',filterBy.sortBy)
+    
 
     return criteria
 }
@@ -127,8 +127,7 @@ async function updateOrderRating(order, rating) {
         let id = ObjectId(order._id)
         const collection = await dbService.getCollection('order')
         const updatedOrder = await collection.updateOne({ _id: ObjectId(id) }, { $set: { ...order, rating: rating } })
-        // console.log('order.service - 134 order', order)
-        // console.log('order.service - 135 updatedOrder', updatedOrder)
+        
         return updatedOrder
     } catch (err) {
         logger.error('cannot add review', err)

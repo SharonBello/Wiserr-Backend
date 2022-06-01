@@ -6,11 +6,10 @@ const cryptr = new Cryptr(process.env.SECRET1 || 'Secret-Wiserr-1234')
 
 async function login(userName, password) {
     logger.debug(`auth.service - login with username: ${userName}`)
-    // console.log('userName', userName)
-    // console.log('password', password)
+    
 
     const user = await userService.getByUsername(userName)
-    // console.log('user in row 13 auth service',user )
+   
     if (!user) return Promise.reject('Invalid username or password')
     // TODO: un-comment for real login
     // const match = await bcrypt.compare(password, user.password)
@@ -18,7 +17,7 @@ async function login(userName, password) {
 
     delete user.password
     user._id = user._id.toString()
-    // console.log('user in row 21 auth service', user)
+   
     return user
 }
 
