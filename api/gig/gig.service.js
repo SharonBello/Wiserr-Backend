@@ -5,9 +5,9 @@ const ObjectId = require('mongodb').ObjectId
 
 
 async function query(filterBy) {
-    // console.log('filterBy in gig service query', filterBy)
+    console.log('filterBy in gig service query line 7', filterBy)
     try {
-        // console.log('filterBy', filterBy)
+        console.log('filterBy line 9', filterBy)
         const criteria = _buildCriteria(filterBy)
         // const criteria = {}
         // console.log('criteria in gig service row 12', criteria)
@@ -32,14 +32,18 @@ async function query(filterBy) {
     }
 }
 
-
 function _buildCriteria(filterBy) {
     let criteria = {}
+    console.log('filterBy line 36', filterBy)
     if (filterBy.txt) {
-        const txtCriteria = { $regex: filterBy.txt, $options: 'i' }
+        const txtCriteria = { $regex: filterBy.txt, $options: 'i' } //'i' for Capitals
+        console.log('txtCriteria line 40', txtCriteria)
         criteria.$or = [
             {
-                name: txtCriteria
+                title: txtCriteria
+            },
+            {
+                description: txtCriteria
             }
         ]
     }
