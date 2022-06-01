@@ -1,5 +1,25 @@
 {
     "cSpell.words": [
         "wiserr"
-    ]
+    ],
+    "workbench.colorCustomizations": {
+        "activityBar.activeBackground": "#4caedb",
+        "activityBar.activeBorder": "#fae4f3",
+        "activityBar.background": "#4caedb",
+        "activityBar.foreground": "#15202b",
+        "activityBar.inactiveForeground": "#15202b99",
+        "activityBarBadge.background": "#fae4f3",
+        "activityBarBadge.foreground": "#15202b",
+        "sash.hoverBorder": "#4caedb",
+        "statusBar.background": "#2998cb",
+        "statusBar.foreground": "#e7e7e7",
+        "statusBarItem.hoverBackground": "#4caedb",
+        "statusBarItem.remoteBackground": "#2998cb",
+        "statusBarItem.remoteForeground": "#e7e7e7",
+        "titleBar.activeBackground": "#2998cb",
+        "titleBar.activeForeground": "#e7e7e7",
+        "titleBar.inactiveBackground": "#2998cb99",
+        "titleBar.inactiveForeground": "#e7e7e799"
+    },
+    "peacock.color": "#2998cb"
 }

@@ -36,7 +36,7 @@ async function getById(userId) {
     try {
         const collection = await dbService.getCollection('user')
         const user = await collection.findOne({ _id: ObjectId(userId) })
-        console.log('user in user service row 39', user)
+        
         delete user.password
 
         // user.givenReviews = await reviewService.query({ byUserId: ObjectId(user._id) })
@@ -52,12 +52,12 @@ async function getById(userId) {
     }
 }
 async function getByUsername(userName) {
-    console.log('userName in row 55 user service',userName )
+    
     try {
-        // console.log('username in user service row 55', userName)
+        
         const collection = await dbService.getCollection('user')
         const user = await collection.findOne({ userName })
-        console.log('user in user service row 60', user)
+        
         return user
     } catch (err) {
         logger.error(`while finding user ${userName}`, err)
@@ -93,7 +93,7 @@ async function update(user) {
 }
 
 async function add(user) {
-    // console.log('user', user)
+   
     try {
         // peek only updatable fields!
         const userToAdd = {
@@ -111,11 +111,11 @@ async function add(user) {
             twitter_account: ''
             // score: 100
         }
-        console.log('userToAdd at user service row 105',userToAdd )
+        
         const collection = await dbService.getCollection('user')
 
         await collection.insertOne(userToAdd)
-        console.log('userToAdd row 109',userToAdd )
+        
         return userToAdd
     } catch (err) {
         logger.error('cannot insert user', err)
