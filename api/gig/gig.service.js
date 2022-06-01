@@ -4,15 +4,15 @@ const reviewService = require('../review/review.service')
 const ObjectId = require('mongodb').ObjectId
 
 async function query(filterBy) {
-    // console.log('filterBy in gig service query', filterBy)
+    console.log('filterBy in gig service query line 7', filterBy)
     try {
-        // console.log('filterBy', filterBy)
+        console.log('filterBy line 9', filterBy)
         const criteria = _buildCriteria(filterBy)
         // const criteria = {}
         // console.log('criteria in gig service row 12', criteria)
         const collection = await dbService.getCollection('gig')
         // console.log('gig.service - line 14 - collection', collection)
-
+        
         // let sortBy = filterBy.sortBy 
         // let sortType = 1
         // if(sortBy === 'recent') {
@@ -20,6 +20,7 @@ async function query(filterBy) {
         //     sortType = -1
         // }
         // let gigs = await collection.toArray()
+        console.log('criteria line 23', criteria)
         let gigs = await collection.find(criteria).toArray()
         // let gigs = await collection.find(criteria).sort({[sortBy]:sortType}).toArray()
         // console.log('gigs', gigs)
@@ -30,14 +31,18 @@ async function query(filterBy) {
     }
 }
 
-
 function _buildCriteria(filterBy) {
     let criteria = {}
+    console.log('filterBy line 36', filterBy)
     if (filterBy.txt) {
-        const txtCriteria = { $regex: filterBy.txt, $options: 'i' }
+        const txtCriteria = { $regex: filterBy.txt, $options: 'i' } //'i' for Capitals
+        console.log('txtCriteria line 40', txtCriteria)
         criteria.$or = [
             {
-                name: txtCriteria
+                title: txtCriteria
+            },
+            {
+                description: txtCriteria
             }
         ]
     }
