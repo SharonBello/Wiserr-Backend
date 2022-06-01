@@ -2,7 +2,7 @@ const dbService = require('../../services/db.service')
 const logger = require('../../services/logger.service')
 const reviewService = require('../review/review.service')
 const ObjectId = require('mongodb').ObjectId
-
+const userService = require('../user/user.service');
 
 async function query(filterBy) {
     console.log('filterBy in gig service query line 7', filterBy)
@@ -99,11 +99,13 @@ async function remove(gigId) {
 
 async function add(gig) {
     // TODO - add gig. description with make lorem
+    console.log('adddddddddddddddddddddddddddddddddddddddddd' )
     try {
         const collection = await dbService.getCollection('gig')
         // const addedGig = await collection.insertOne(gig)
         await collection.insertOne(gig)
-
+        const user = await userService.updateUserIsSeller(gig.owner._id)
+        // console.log('user in gig service row 108', user)
         // addedGig = addedGig.ops.pop()
         return gig
     } catch (err) {
@@ -125,7 +127,7 @@ async function addGigReview(gig, review) {
 }
 
 async function update(gig) {
-    
+    console.log('updateeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeee' )
     try {
         let id = ObjectId(gig._id)
         delete gig._id
