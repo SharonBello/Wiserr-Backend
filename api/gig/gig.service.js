@@ -3,6 +3,7 @@ const logger = require('../../services/logger.service')
 const reviewService = require('../review/review.service')
 const ObjectId = require('mongodb').ObjectId
 
+
 async function query(filterBy) {
     console.log('LINE 7 GIG.SERVICE:', filterBy)
     try {
@@ -32,14 +33,18 @@ async function query(filterBy) {
     }
 }
 
-
 function _buildCriteria(filterBy) {
     let criteria = {}
+    console.log('filterBy line 36', filterBy)
     if (filterBy.txt) {
-        const txtCriteria = { $regex: filterBy.txt, $options: 'i' }
+        const txtCriteria = { $regex: filterBy.txt, $options: 'i' } //'i' for Capitals
+        console.log('txtCriteria line 40', txtCriteria)
         criteria.$or = [
             {
-                name: txtCriteria
+                title: txtCriteria
+            },
+            {
+                description: txtCriteria
             }
         ]
     }
@@ -94,7 +99,7 @@ async function remove(gigId) {
     } catch (err) {
         logger.error(`cannot remove gig ${gigId}`, err)
         throw err
-    }
+    } 
 }
 
 async function add(gig) {
@@ -103,6 +108,7 @@ async function add(gig) {
         const collection = await dbService.getCollection('gig')
         // const addedGig = await collection.insertOne(gig)
         await collection.insertOne(gig)
+
         // addedGig = addedGig.ops.pop()
         return gig
     } catch (err) {
@@ -130,6 +136,7 @@ async function update(gig) {
         delete gig._id
         const collection = await dbService.getCollection('gig')
         await collection.updateOne({ _id: ObjectId(id) }, { $set: { ...gig } })
+        console.log('gig in gig service row 130', gig)
         return gig
     } catch (err) {
         logger.error(`cannot update gig ${gigId}`, err)
@@ -142,7 +149,6 @@ async function updateGigRating(gig, rating) {
         let id = ObjectId(gig._id)
         const collection = await dbService.getCollection('gig')
         const updatedGig = await collection.updateOne({ _id: ObjectId(id) }, { $set: { ...gig, rating: rating } })
-
         return updatedGig
     } catch (err) {
         logger.error('cannot add review', err)
