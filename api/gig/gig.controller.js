@@ -34,6 +34,7 @@ async function getGigById(req, res) {
 async function addGig(req, res) {
   try {
     const gig = req.body;
+    console.log('gig in gig controllr',gig )
     // logger.info('from gig.controller - addGig(req, res)', gig)
     const addedGig = await gigService.add(gig)
     // logger.info('from gig.controller - addGig(req, res)', addedGig)
