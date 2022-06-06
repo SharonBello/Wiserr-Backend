@@ -104,7 +104,7 @@ async function remove(gigId) {
 
 async function add(gig) {
     // TODO - add gig. description with make lorem
-    
+    console.log('gig', gig)
     try {
         const collection = await dbService.getCollection('gig')
         // const addedGig = await collection.insertOne(gig)
