@@ -20,11 +20,11 @@ async function login(req, res) {
 async function signup(req, res) {
     try {
         const credentials = req.body
-        // console.log('credentials ===========================',credentials )
+    
         // Never log passwords
         // logger.debug(credentials)
         const account = await authService.signup(credentials)
-        // console.log('account in row 27 auth controller', account)
+      
         logger.debug(`auth.route - new account created: ` + JSON.stringify(account))
         const user = await authService.login(credentials.userName, credentials.password)
         logger.info('User signup:', user)
@@ -38,15 +38,15 @@ async function signup(req, res) {
 }
 
 async function logout(req, res){
-    // console.log('im here from logout function')
+    
 
     try {
     
         res.clearCookie('loginToken')
-    // console.log('after cleaning...')
+    
         res.send({ msg: 'Logged out successfully' })
     } catch (err) {
-        // console.log('errrporrr')
+       
         res.status(500).send({ err: 'Failed to logout' })
     }
 }
