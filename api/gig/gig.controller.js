@@ -64,16 +64,15 @@ async function addReview(req, res) {
 
 // PUT (Update gig)
 async function updateGig(req, res) {
-  // console.log('in updategig in gig controller')
-  // console.log('update gig in gig controller row 62', req.body)
+ 
   try {
     const gig = req.body;
     if(!gig.reviewsQty)  gig.reviewsQty = getRandomInt(50,1200)
     const updatedGig = await gigService.update(gig)
-    // console.log('updatedGig in gig controller row 66', updatedGig)
+
     res.json(updatedGig)
   } catch (err) {
-    // console.log('update gig in gig controller row 69', req)
+
     logger.error('Failed to update gig', err)
     res.status(500).send({ err: 'Failed to update gig' })
   }

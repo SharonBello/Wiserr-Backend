@@ -5,7 +5,7 @@ const ObjectId = require('mongodb').ObjectId
 const userService = require('../user/user.service');
 
 async function query(filterBy) {
-    console.log('LINE 7 GIG.SERVICE:', filterBy)
+    
     try {
 
         const criteria = _buildCriteria(filterBy)
@@ -35,10 +35,10 @@ async function query(filterBy) {
 
 function _buildCriteria(filterBy) {
     let criteria = {}
-    console.log('filterBy line 36', filterBy)
+   
     if (filterBy.txt) {
         const txtCriteria = { $regex: filterBy.txt, $options: 'i' } //'i' for Capitals
-        console.log('txtCriteria line 40', txtCriteria)
+       
         criteria.$or = [
             {
                 title: txtCriteria
@@ -50,7 +50,7 @@ function _buildCriteria(filterBy) {
     }
     if (filterBy.priceMin && filterBy.priceMax < Infinity) {
         criteria.price = ({ $gte: +filterBy.priceMin, $lte: +filterBy.priceMax })
-        console.log(criteria)
+        
     }
 
     if (filterBy.category) {
@@ -137,7 +137,7 @@ async function update(gig) {
         delete gig._id
         const collection = await dbService.getCollection('gig')
         await collection.updateOne({ _id: ObjectId(id) }, { $set: { ...gig } })
-        console.log('gig in gig service row 130', gig)
+       
         return gig
     } catch (err) {
         logger.error(`cannot update gig ${gigId}`, err)
