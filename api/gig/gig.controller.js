@@ -1,5 +1,6 @@
 const gigService = require('./gig.service.js');
 const logger = require('../../services/logger.service')
+const utilService = require('../../services/util.service')
 
 // GET LIST
 async function getGigs(req, res) {
@@ -34,7 +35,10 @@ async function getGigById(req, res) {
 async function addGig(req, res) {
   try {
     const gig = req.body;
-    console.log('gig in gig controllr',gig )
+    // console.log('gig in gig controllr',gig )
+    //add review random
+    if(!gig.reviewsQty) gig.reviewsQty = utilService.getRandomInt(50,1200)
+// console.log('gig after review qty in gig contrller',gig)
     // logger.info('from gig.controller - addGig(req, res)', gig)
     const addedGig = await gigService.add(gig)
     // logger.info('from gig.controller - addGig(req, res)', addedGig)
@@ -64,6 +68,7 @@ async function updateGig(req, res) {
   // console.log('update gig in gig controller row 62', req.body)
   try {
     const gig = req.body;
+    if(!gig.reviewsQty)  gig.reviewsQty = getRandomInt(50,1200)
     const updatedGig = await gigService.update(gig)
     // console.log('updatedGig in gig controller row 66', updatedGig)
     res.json(updatedGig)
