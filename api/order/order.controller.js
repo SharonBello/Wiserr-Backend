@@ -7,7 +7,6 @@ async function getOrders(req, res) {
     logger.debug('Trying tog et orders')
     var queryParams = req.query;
     const orders = await orderService.query(queryParams)
-    // logger.debug('order.controller 11 orders', orders)
     res.json(orders);
   } catch (err) {
     logger.error('Failed to get orders', err)
@@ -31,7 +30,6 @@ async function getOrderById(req, res) {
 async function addOrder(req, res) {
   try {
     const order = req.body;
-    // logger.info('from order.controller - addOrder(req, res)', order)
     const addedOrder = await orderService.add(order)
     logger.info('from order.controller - addOrder(req, res)', addedOrder)
     res.json(addedOrder)
@@ -70,9 +68,9 @@ async function updateOrderRate(req, res) {
   try {
     const order = req.body;
     const rating = req.body;
-     
+
     const updatedRate = await orderService.updateUserRating(order, rating)
-    
+
     res.json(updatedRate)
   } catch (err) {
     logger.error('Failed to update order', err)
@@ -82,7 +80,7 @@ async function updateOrderRate(req, res) {
 
 // DELETE (Remove order)
 async function removeOrder(req, res) {
-  
+
   try {
     const orderId = req.params.id;
     const removedId = await orderService.remove(orderId)

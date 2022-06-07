@@ -5,27 +5,14 @@ const ObjectId = require('mongodb').ObjectId
 const userService = require('../user/user.service');
 
 async function query(filterBy) {
-    
+
     try {
 
         const criteria = _buildCriteria(filterBy)
-
-        // const criteria = {}
-
         const collection = await dbService.getCollection('gig')
-
-
         let sortBy = filterBy.sortBy
         let sortType = 1
-        // if(sortBy === 'title') {
-        //     sortBy = 'createdAt'
-        //     sortType = -1
-        // }
-        // let gigs = await collection.toArray()
-        // let gigs = await collection.find(criteria).toArray()
-
         let gigs = await collection.find(criteria).sort({ [sortBy]: sortType }).toArray()
-
         return gigs
     } catch (err) {
         logger.error('cannot find gigs', err)
@@ -34,11 +21,11 @@ async function query(filterBy) {
 }
 
 function _buildCriteria(filterBy) {
+
     let criteria = {}
-   
+
     if (filterBy.txt) {
-        const txtCriteria = { $regex: filterBy.txt, $options: 'i' } //'i' for Capitals
-       
+        const txtCriteria = { $regex: filterBy.txt, $options: 'i' } //'i' for Capitals       
         criteria.$or = [
             {
                 title: txtCriteria
@@ -50,7 +37,6 @@ function _buildCriteria(filterBy) {
     }
     if (filterBy.priceMin && filterBy.priceMax < Infinity) {
         criteria.price = ({ $gte: +filterBy.priceMin, $lte: +filterBy.priceMax })
-        
     }
 
     if (filterBy.category) {
@@ -58,21 +44,8 @@ function _buildCriteria(filterBy) {
         criteria.category = txtCriteria
     }
     if (filterBy.deliveryDate >= 1) {
-        criteria.daysToMake = {$lte: +filterBy.deliveryDate}
+        criteria.daysToMake = { $lte: +filterBy.deliveryDate }
     }
-
-    // if (filterBy.inStock) {
-    //     criteria.inStock =  JSON.parse(filterBy.inStock)
-    // }
-
-    // const PAGE_SIZE = 3
-    // if (filterBy.pageIdx !== undefined) {
-    //     const startIdx = +filterBy.pageIdx * PAGE_SIZE
-    //     // if (startIdx > gigs.length - 1) return Promise.reject()
-    //     gigs = gigs.slice(startIdx, startIdx + PAGE_SIZE)
-    // }
-
-
 
     return criteria
 }
@@ -99,19 +72,15 @@ async function remove(gigId) {
     } catch (err) {
         logger.error(`cannot remove gig ${gigId}`, err)
         throw err
-    } 
+    }
 }
 
 async function add(gig) {
-    // TODO - add gig. description with make lorem
-    console.log('gig', gig)
+
     try {
         const collection = await dbService.getCollection('gig')
-        // const addedGig = await collection.insertOne(gig)
         await collection.insertOne(gig)
         const user = await userService.updateUserIsSeller(gig.owner._id)
-        // console.log('user in gig service row 108', user)
-        // addedGig = addedGig.ops.pop()
         return gig
     } catch (err) {
         logger.error('cannot insert gig', err)
@@ -137,7 +106,7 @@ async function update(gig) {
         delete gig._id
         const collection = await dbService.getCollection('gig')
         await collection.updateOne({ _id: ObjectId(id) }, { $set: { ...gig } })
-       
+
         return gig
     } catch (err) {
         logger.error(`cannot update gig ${gigId}`, err)

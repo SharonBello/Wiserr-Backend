@@ -5,11 +5,10 @@ const logger = require('../../services/logger.service')
 const cryptr = new Cryptr(process.env.SECRET1 || 'Secret-Wiserr-1234')
 
 async function login(userName, password) {
-    logger.debug(`auth.service - login with username: ${userName}`)
-    
 
+    logger.debug(`auth.service - login with username: ${userName}`)
     const user = await userService.getByUsername(userName)
-   
+
     if (!user) return Promise.reject('Invalid username or password')
     // TODO: un-comment for real login
     // const match = await bcrypt.compare(password, user.password)
@@ -17,13 +16,12 @@ async function login(userName, password) {
 
     delete user.password
     user._id = user._id.toString()
-   
     return user
 }
 
-async function signup({userName, password, fullname, imgUrl}) {
-    const saltRounds = 10
+async function signup({ userName, password, fullname, imgUrl }) {
 
+    const saltRounds = 10
     logger.debug(`auth.service - signup with username: ${userName}, fullname: ${fullname}`)
     if (!userName || !password || !fullname) return Promise.reject('Missing required signup information')
 
@@ -36,7 +34,7 @@ async function signup({userName, password, fullname, imgUrl}) {
 
 
 function getLoginToken(user) {
-    return cryptr.encrypt(JSON.stringify(user))    
+    return cryptr.encrypt(JSON.stringify(user))
 }
 
 function validateToken(loginToken) {
@@ -45,7 +43,7 @@ function validateToken(loginToken) {
         const loggedinUser = JSON.parse(json)
         return loggedinUser
 
-    } catch(err) {
+    } catch (err) {
         console.log('Invalid login token')
     }
     return null
