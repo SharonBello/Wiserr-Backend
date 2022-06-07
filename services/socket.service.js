@@ -12,7 +12,7 @@ function setupSocketAPI(http) {
         socket.on('disconnect', socket => {})
 
         socket.on("join order", (userId) => {
-            console.log('SOCKET SERVICE LINE 15',userId )
+            console.log('LINE 15 USER ID:', userId)
             socket.join(userId);
             socket.orderChannel = userId;
           });
@@ -20,8 +20,9 @@ function setupSocketAPI(http) {
             gIo.to(userId).emit("user-online", userId);
           });
           socket.on("new order", (savedOrder) => {
-             console.log('LINE 23 SOCKETR SERVICE', savedOrder.seller)
-             if(savedOrder.seller) socket.to(savedOrder.seller._id).emit("added order", savedOrder);
+            if(savedOrder.seller) {
+              console.log('LINE 23 SAVED ORDER', savedOrder)
+              socket.to(savedOrder.seller._id).emit("added order", savedOrder);}
             // socket.to(savedOrder).emit("order received");
           });
           socket.on("new status", ({ order, notification }) => {
@@ -37,7 +38,7 @@ function setupSocketAPI(http) {
             gIo.to(userId).emit("user-online", userId);
           });
           socket.on("unset-user-socket", (userId) => {
-            console.log("noam dissconected", userId);
+         
             delete socket.userId;
             gIo.emit("user-offline", userId);
           });
@@ -82,7 +83,7 @@ async function _getAllSockets() {
 
 async function _printSockets() {
     const sockets = await _getAllSockets()
-    console.log(`Sockets: (count: ${sockets.length}):`)
+    
     sockets.forEach(_printSocket)
 }
 function _printSocket(socket) {
