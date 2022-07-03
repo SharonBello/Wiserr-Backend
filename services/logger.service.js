@@ -24,7 +24,7 @@ function doLog(level, ...args) {
         (typeof arg === 'string' || isError(arg)) ? arg : JSON.stringify(arg)
     )
 
-    var line = strs.join(' | ')
+    let line = strs.join(' | ')
     const store = asyncLocalStorage.getStore()
     const userId = store?.loggedinUser?._id
     const str = userId ? `(userId: ${userId})` : ''

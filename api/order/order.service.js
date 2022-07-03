@@ -17,7 +17,6 @@ async function query(filterBy) {
     }
 }
 
-
 function _buildCriteria(filterBy) {
     let criteria = {}
     // if (filterBy.txt) {

@@ -6,7 +6,7 @@ const utilService = require('../../services/util.service')
 async function getGigs(req, res) {
 
   try {
-    var queryParams = req.query;
+    let queryParams = req.query;
     const gigs = await gigService.query(queryParams)
     res.send(gigs);
   } catch (err) {
