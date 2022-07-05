@@ -9,7 +9,7 @@ module.exports = {
 // Database Name
 const dbName = 'wiserr_db'
 
-var dbConn = null
+let dbConn = null
 
 async function getCollection(collectionName) {
     try {
