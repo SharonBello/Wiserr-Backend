@@ -32,7 +32,7 @@ async function addGig(req, res) {
   try {
     const gig = req.body;
     //add review random
-    if (!gig.reviewsQty) gig.reviewsQty = utilService.getRandomInt(50, 1200)
+    // if (!gig.reviewsQty) gig.reviewsQty = utilService.getRandomInt(50, 1200)
     const addedGig = await gigService.add(gig)
     res.json(addedGig)
   } catch (err) {
