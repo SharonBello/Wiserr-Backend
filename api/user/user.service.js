@@ -7,9 +7,7 @@ const logger = require('../../services/logger.service')
 module.exports = {
     query,
     getById,
-    getByUsername,
-    remove,
-    update,
+    getByUsername,   
     add,
     updateUserIsSeller
 }
@@ -35,9 +33,7 @@ async function getById(userId) {
     try {
         const collection = await dbService.getCollection('user')
         const user = await collection.findOne({ _id: ObjectId(userId) })
-
         delete user.password
-
         return user
     } catch (err) {
         logger.error(`Cannot find user by id - ${userId}`, err)
@@ -47,10 +43,8 @@ async function getById(userId) {
 async function getByUsername(userName) {
 
     try {
-
         const collection = await dbService.getCollection('user')
         const user = await collection.findOne({ userName })
-
         return user
     } catch (err) {
         logger.error(`Cannot find user by name -  ${userName}`, err)
@@ -58,32 +52,6 @@ async function getByUsername(userName) {
     }
 }
 
-async function remove(userId) {
-    try {
-        const collection = await dbService.getCollection('user')
-        await collection.deleteOne({ '_id': ObjectId(userId) })
-    } catch (err) {
-        logger.error(`Cannot remove user ${userId}`, err)
-        throw err
-    }
-}
-
-async function update(user) {
-    try {
-        const userToSave = {
-            _id: ObjectId(user._id),
-            fullName: user.fullname,
-            isSeller: user.isSeller,
-            avgOrdersRate: user.avgOrdersRate,
-        }
-        const collection = await dbService.getCollection('user')
-        await collection.updateOne({ _id: userToSave._id }, { $set: userToSave })
-        return userToSave
-    } catch (err) {
-        logger.error(`Cannot update user ${user._id}`, err)
-        throw err
-    }
-}
 
 async function add(user) {
 

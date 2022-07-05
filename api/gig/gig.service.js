@@ -1,7 +1,7 @@
 const ObjectId = require('mongodb').ObjectId
 const dbService = require('../../services/db.service')
 const logger = require('../../services/logger.service')
-const reviewService = require('../review/review.service')
+// const reviewService = require('../review/review.service')
 const userService = require('../user/user.service');
 const orderService = require('../order/order.service')
 
