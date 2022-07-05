@@ -1,7 +1,7 @@
 
+const ObjectId = require('mongodb').ObjectId
 const dbService = require('../../services/db.service')
 const logger = require('../../services/logger.service')
-const ObjectId = require('mongodb').ObjectId
 
 
 module.exports = {
@@ -26,7 +26,7 @@ async function query(filterBy = {}) {
         })
         return users
     } catch (err) {
-        logger.error('cannot find users', err)
+        logger.error('Cannot find users', err)
         throw err
     }
 }
@@ -40,7 +40,7 @@ async function getById(userId) {
 
         return user
     } catch (err) {
-        logger.error(`while finding user ${userId}`, err)
+        logger.error(`Cannot find user by id - ${userId}`, err)
         throw err
     }
 }
@@ -53,7 +53,7 @@ async function getByUsername(userName) {
 
         return user
     } catch (err) {
-        logger.error(`while finding user ${userName}`, err)
+        logger.error(`Cannot find user by name -  ${userName}`, err)
         throw err
     }
 }
@@ -63,7 +63,7 @@ async function remove(userId) {
         const collection = await dbService.getCollection('user')
         await collection.deleteOne({ '_id': ObjectId(userId) })
     } catch (err) {
-        logger.error(`cannot remove user ${userId}`, err)
+        logger.error(`Cannot remove user ${userId}`, err)
         throw err
     }
 }
@@ -80,7 +80,7 @@ async function update(user) {
         await collection.updateOne({ _id: userToSave._id }, { $set: userToSave })
         return userToSave
     } catch (err) {
-        logger.error(`cannot update user ${user._id}`, err)
+        logger.error(`Cannot update user ${user._id}`, err)
         throw err
     }
 }
@@ -109,12 +109,12 @@ async function add(user) {
 
         return userToAdd
     } catch (err) {
-        logger.error('cannot insert user', err)
+        logger.error('Cannot add user', err)
         throw err
     }
 }
 
-async function updateUserIsSeller(userId){    
+async function updateUserIsSeller(userId) {
     const userToSave = await getById(userId)
     userToSave.isSeller = true
     const collection = await dbService.getCollection('user')

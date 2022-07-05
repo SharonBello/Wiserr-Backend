@@ -14,6 +14,7 @@ async function query(filterBy) {
         let sortBy = filterBy.sortBy
         let sortType = 1
         let gigs = await collection.find(criteria).sort({ [sortBy]: sortType }).toArray()
+        //If there is a user, it mean that we are asking for his gigs only
         if (filterBy.userId) {
             const orders = await orderService.query()
             getOrderQty(gigs, orders)
@@ -114,17 +115,6 @@ async function add(gig) {
     }
 }
 
-async function addGigReview(gig, review) {
-    try {
-        let id = ObjectId(gig._id)
-        const collection = await dbService.getCollection('gig')
-        const updatedGig = await collection.updateOne({ _id: ObjectId(id) }, { $set: { ...gig, review: review } })
-        return updatedGig
-    } catch (err) {
-        logger.error('Cannot add review', err)
-        throw err
-    }
-}
 
 async function update(gig) {
     try {
@@ -140,17 +130,17 @@ async function update(gig) {
     }
 }
 
-async function updateGigRating(gig, rating) {
-    try {
-        let id = ObjectId(gig._id)
-        const collection = await dbService.getCollection('gig')
-        const updatedGig = await collection.updateOne({ _id: ObjectId(id) }, { $set: { ...gig, rating: rating } })
-        return updatedGig
-    } catch (err) {
-        logger.error('Cannot add review', err)
-        throw err
-    }
-}
+// async function updateGigRating(gig, rating) {
+//     try {
+//         let id = ObjectId(gig._id)
+//         const collection = await dbService.getCollection('gig')
+//         const updatedGig = await collection.updateOne({ _id: ObjectId(id) }, { $set: { ...gig, rating: rating } })
+//         return updatedGig
+//     } catch (err) {
+//         logger.error('Cannot updare gig rating', err)
+//         throw err
+//     }
+// }
 
 module.exports = {
     remove,
@@ -158,7 +148,6 @@ module.exports = {
     getById,
     add,
     update,
-    updateGigRating,
-    addGigReview,
+    // updateGigRating,    
     getOrderQty
 }

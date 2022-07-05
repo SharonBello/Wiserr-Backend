@@ -20,7 +20,7 @@ async function deleteReview(req, res) {
         if (deletedCount === 1) {
             res.send({ msg: 'Deleted successfully' })
         } else {
-            res.status(400).send({ err: 'Cannot remove review' })
+            res.status(400).send({ err: 'Cannot delete review' })
         }
     } catch (err) {
         logger.error('Failed to delete review', err)

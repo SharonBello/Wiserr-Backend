@@ -1,6 +1,6 @@
+const ObjectId = require('mongodb').ObjectId
 const dbService = require('../../services/db.service')
 const logger = require('../../services/logger.service')
-const ObjectId = require('mongodb').ObjectId
 const asyncLocalStorage = require('../../services/als.service')
 
 async function query(filterBy = {}) {
@@ -47,7 +47,7 @@ async function query(filterBy = {}) {
 
         return reviews
     } catch (err) {
-        logger.error('cannot find reviews', err)
+        logger.error('Cannot find reviews', err)
         throw err
     }
 
@@ -64,7 +64,7 @@ async function remove(reviewId) {
         const {deletedCount} = await collection.deleteOne(criteria)
         return deletedCount
     } catch (err) {
-        logger.error(`cannot remove review ${reviewId}`, err)
+        logger.error(`Cannot remove review ${reviewId}`, err)
         throw err
     }
 }
@@ -81,7 +81,7 @@ async function add(review) {
         await collection.insertOne(reviewToAdd)
         return reviewToAdd
     } catch (err) {
-        logger.error('cannot insert review', err)
+        logger.error('Cannot insert review', err)
         throw err
     }
 }

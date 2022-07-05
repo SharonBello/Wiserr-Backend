@@ -10,9 +10,9 @@ const router = express.Router()
 router.get('/', log, getGigs)
 router.get('/:id', getGigById)
 router.post('/', addGig)
-router.post('/:id', addReview)
+// router.post('/:id', addReview)
 router.put('/:id', updateGig)
-router.put('/', updateGigRate)
+// router.put('/', updateGigRate)
 
 
 module.exports = router

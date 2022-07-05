@@ -42,18 +42,18 @@ async function addGig(req, res) {
 }
 
 // POST (add review)
-async function addReview(req, res) {
-  console.log('line 47 gig.controller', req)
-  try {
-    const gig = req.body;
-    const review = req.body;
-    const addedReview = await gigService.addUserReview(gig, review)
-    res.json(addedReview)
-  } catch (err) {
-    logger.error('Failed to add review', err)
-    res.status(500).send({ err: 'Failed to add review' })
-  }
-}
+// async function addReview(req, res) {
+//   console.log('line 47 gig.controller', req)
+//   try {
+//     const gig = req.body;
+//     const review = req.body;
+//     const addedReview = await gigService.addUserReview(gig, review)
+//     res.json(addedReview)
+//   } catch (err) {
+//     logger.error('Failed to add review', err)
+//     res.status(500).send({ err: 'Failed to add review' })
+//   }
+// }
 
 // PUT (Update gig)
 async function updateGig(req, res) {
@@ -69,18 +69,18 @@ async function updateGig(req, res) {
   }
 }
 
-async function updateGigRate(req, res) {
+// async function updateGigRate(req, res) {
 
-  try {
-    const gig = req.body;
-    const rating = req.body;
-    const updatedRate = await gigService.updateUserRating(gig, rating)
-    res.json(updatedRate)
-  } catch (err) {
-    logger.error('Failed to update gig', err)
-    res.status(500).send({ err: 'Failed to update gig' })
-  }
-}
+//   try {
+//     const gig = req.body;
+//     const rating = req.body;
+//     const updatedRate = await gigService.updateUserRating(gig, rating)
+//     res.json(updatedRate)
+//   } catch (err) {
+//     logger.error('Failed to update gig', err)
+//     res.status(500).send({ err: 'Failed to update gig' })
+//   }
+// }
 
 // DELETE (Remove gig)
 async function removeGig(req, res) {
@@ -99,8 +99,8 @@ module.exports = {
   getGigs,
   getGigById,
   addGig,
-  addReview,
+  // addReview,
   updateGig,
-  updateGigRate,
+  // updateGigRate,
   removeGig
 }
