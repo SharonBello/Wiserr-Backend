@@ -43,7 +43,7 @@ async function addGig(req, res) {
 
 // POST (add review)
 async function addReview(req, res) {
-
+  console.log('line 47 gig.controller', req)
   try {
     const gig = req.body;
     const review = req.body;

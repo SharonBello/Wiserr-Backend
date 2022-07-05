@@ -1,7 +1,6 @@
 
 const dbService = require('../../services/db.service')
 const logger = require('../../services/logger.service')
-const reviewService = require('../review/review.service')
 const ObjectId = require('mongodb').ObjectId
 
 
@@ -23,8 +22,6 @@ async function query(filterBy = {}) {
         users = users.map(user => {
             delete user.password
             user.createdAt = ObjectId(user._id).getTimestamp()
-            // Returning fake fresh data
-            // user.createdAt = Date.now() - (1000 * 60 * 60 * 24 * 3) // 3 days ago
             return user
         })
         return users
@@ -38,14 +35,8 @@ async function getById(userId) {
     try {
         const collection = await dbService.getCollection('user')
         const user = await collection.findOne({ _id: ObjectId(userId) })
-        
-        delete user.password
 
-        // user.givenReviews = await reviewService.query({ byUserId: ObjectId(user._id) })
-        // user.givenReviews = user.givenReviews.map(review => {
-        //     delete review.byUser
-        //     return review
-        // })
+        delete user.password
 
         return user
     } catch (err) {
@@ -54,12 +45,12 @@ async function getById(userId) {
     }
 }
 async function getByUsername(userName) {
-    
+
     try {
-        
+
         const collection = await dbService.getCollection('user')
         const user = await collection.findOne({ userName })
-        
+
         return user
     } catch (err) {
         logger.error(`while finding user ${userName}`, err)
@@ -79,13 +70,11 @@ async function remove(userId) {
 
 async function update(user) {
     try {
-        // peek only updatable properties
         const userToSave = {
-            _id: ObjectId(user._id), // needed for the returnd obj
+            _id: ObjectId(user._id),
             fullName: user.fullname,
             isSeller: user.isSeller,
             avgOrdersRate: user.avgOrdersRate,
-            // score: user.score,
         }
         const collection = await dbService.getCollection('user')
         await collection.updateOne({ _id: userToSave._id }, { $set: userToSave })
@@ -97,29 +86,27 @@ async function update(user) {
 }
 
 async function add(user) {
-   
+
     try {
-        // peek only updatable fields!
         const userToAdd = {
             userName: user.userName,
             password: user.password,
             fullName: user.fullname,
             imgUrl: user.imgUrl,
             level: 'Level 1 Seller',
-            email: user.userName+'@gmail.com',
+            email: user.userName + '@gmail.com',
             avgOrdersRate: 0,
             isSeller: false,
             reviews: [],
             google_account: '',
             facebook_account: '',
             twitter_account: ''
-            // score: 100
         }
-        
+
         const collection = await dbService.getCollection('user')
 
         await collection.insertOne(userToAdd)
-        
+
         return userToAdd
     } catch (err) {
         logger.error('cannot insert user', err)
@@ -150,9 +137,6 @@ function _buildCriteria(filterBy) {
             }
         ]
     }
-    // if (filterBy.minBalance) {
-    //     criteria.score = { $gte: filterBy.minBalance }
-    // }
     return criteria
 }
 
