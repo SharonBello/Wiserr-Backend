@@ -127,17 +127,11 @@ async function add(user) {
     }
 }
 
-async function updateUserIsSeller(userId){
-    console.log('userId from gig',userId )
+async function updateUserIsSeller(userId){    
     const userToSave = await getById(userId)
-    console.log('userToSave in line 131', userToSave)
-
     userToSave.isSeller = true
-    console.log('userToSave in  134', userToSave)
-
     const collection = await dbService.getCollection('user')
     await collection.updateOne({ _id: ObjectId(userId) }, { $set: userToSave })
-    console.log('userToSave in  138', userToSave)
 
     return userToSave
 }

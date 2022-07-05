@@ -4,9 +4,9 @@ const utilService = require('../../services/util.service')
 
 // GET LIST
 async function getGigs(req, res) {
-
   try {
-    var queryParams = req.query;
+    var queryParams = req.query;    
+    console.log('queryParams line 9',queryParams )
     const gigs = await gigService.query(queryParams)
     res.send(gigs);
   } catch (err) {
@@ -17,7 +17,7 @@ async function getGigs(req, res) {
 
 // GET BY ID 
 async function getGigById(req, res) {
-
+  
   try {
     const gigId = req.params.id;
     const gig = await gigService.getById(gigId)
