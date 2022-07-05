@@ -39,44 +39,7 @@ async function addOrder(req, res) {
   }
 }
 
-// POST (add review)
-async function addReview(req, res) {
-  try {
-    const order = req.body;
-    const review = req.body;
-    const addedReview = await orderService.addUserReview(order, review)
-    res.json(addedReview)
-  } catch (err) {
-    logger.error('Failed to add review', err)
-    res.status(500).send({ err: 'Failed to add review' })
-  }
-}
 
-// PUT (Update order)
-async function updateOrder(req, res) {
-  try {
-    const order = req.body;
-    const updatedOrder = await orderService.update(order)
-    res.json(updatedOrder)
-  } catch (err) {
-    logger.error('Failed to update order', err)
-    res.status(500).send({ err: 'Failed to update order' })
-  }
-}
-
-async function updateOrderRate(req, res) {
-  try {
-    const order = req.body;
-    const rating = req.body;
-
-    const updatedRate = await orderService.updateUserRating(order, rating)
-
-    res.json(updatedRate)
-  } catch (err) {
-    logger.error('Failed to update order rate', err)
-    res.status(500).send({ err: 'Failed to update order rate' })
-  }
-}
 
 // DELETE (Remove order)
 async function removeOrder(req, res) {
@@ -95,8 +58,5 @@ module.exports = {
   getOrders,
   getOrderById,
   addOrder,
-  addReview,
-  updateOrder,
-  updateOrderRate,
   removeOrder
 }
