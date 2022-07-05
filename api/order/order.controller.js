@@ -5,7 +5,7 @@ const logger = require('../../services/logger.service')
 async function getOrders(req, res) {
   try {
     logger.debug('Trying tog et orders')
-    var queryParams = req.query;
+    let queryParams = req.query;
     const orders = await orderService.query(queryParams)
     res.json(orders);
   } catch (err) {

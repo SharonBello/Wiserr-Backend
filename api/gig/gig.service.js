@@ -1,8 +1,9 @@
+const ObjectId = require('mongodb').ObjectId
 const dbService = require('../../services/db.service')
 const logger = require('../../services/logger.service')
 const reviewService = require('../review/review.service')
-const ObjectId = require('mongodb').ObjectId
 const userService = require('../user/user.service');
+const orderService = require('../order/order.service')
 
 async function query(filterBy) {
 
@@ -13,9 +14,13 @@ async function query(filterBy) {
         let sortBy = filterBy.sortBy
         let sortType = 1
         let gigs = await collection.find(criteria).sort({ [sortBy]: sortType }).toArray()
+        if (filterBy.userId) {
+            const orders = await orderService.query()
+            getOrderQty(gigs, orders)
+        }
         return gigs
     } catch (err) {
-        logger.error('cannot find gigs', err)
+        logger.error('Cannot find gigs', err)
         throw err
     }
 }
@@ -46,9 +51,31 @@ function _buildCriteria(filterBy) {
     if (filterBy.deliveryDate >= 1) {
         criteria.daysToMake = { $lte: +filterBy.deliveryDate }
     }
-
+    if (filterBy.userId) {
+        criteria['owner._id'] = { $regex: filterBy.userId }
+    }
     return criteria
 }
+
+async function getOrderQty(gigs, orders) {
+
+    try {
+        if (gigs.length ) {
+            
+            gigs.forEach(gig => {
+                gig.orderQty = 0
+                gig.orderQty = orders.reduce((acc, order) => acc + ((gig._id == order.gig._id) ? +1 : 0),0)
+                return gig
+            })               
+            return gigs
+        }
+    } catch (err) {
+        logger.error(`While counting gigs by seller id and gig id `, err)
+        throw err
+    }
+}
+
+
 
 async function getById(gigId) {
 
@@ -56,10 +83,9 @@ async function getById(gigId) {
 
         const collection = await dbService.getCollection('gig')
         const gig = collection.findOne({ _id: ObjectId(gigId) })
-
         return gig
     } catch (err) {
-        logger.error(`while finding gig ${gigId}`, err)
+        logger.error(`While finding gig ${gigId}`, err)
         throw err
     }
 }
@@ -70,7 +96,7 @@ async function remove(gigId) {
         await collection.deleteOne({ _id: ObjectId(gigId) })
         return gigId
     } catch (err) {
-        logger.error(`cannot remove gig ${gigId}`, err)
+        logger.error(`Cannot remove gig ${gigId}`, err)
         throw err
     }
 }
@@ -83,7 +109,7 @@ async function add(gig) {
         const user = await userService.updateUserIsSeller(gig.owner._id)
         return gig
     } catch (err) {
-        logger.error('cannot insert gig', err)
+        logger.error('Cannot insert gig', err)
         throw err
     }
 }
@@ -95,7 +121,7 @@ async function addGigReview(gig, review) {
         const updatedGig = await collection.updateOne({ _id: ObjectId(id) }, { $set: { ...gig, review: review } })
         return updatedGig
     } catch (err) {
-        logger.error('cannot add review', err)
+        logger.error('Cannot add review', err)
         throw err
     }
 }
@@ -109,7 +135,7 @@ async function update(gig) {
 
         return gig
     } catch (err) {
-        logger.error(`cannot update gig ${gigId}`, err)
+        logger.error(`Cannot update gig ${gigId}`, err)
         throw err
     }
 }
@@ -121,7 +147,7 @@ async function updateGigRating(gig, rating) {
         const updatedGig = await collection.updateOne({ _id: ObjectId(id) }, { $set: { ...gig, rating: rating } })
         return updatedGig
     } catch (err) {
-        logger.error('cannot add review', err)
+        logger.error('Cannot add review', err)
         throw err
     }
 }
@@ -133,5 +159,6 @@ module.exports = {
     add,
     update,
     updateGigRating,
-    addGigReview
+    addGigReview,
+    getOrderQty
 }

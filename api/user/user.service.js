@@ -18,7 +18,7 @@ async function query(filterBy = {}) {
     const criteria = _buildCriteria(filterBy)
     try {
         const collection = await dbService.getCollection('user')
-        var users = await collection.find(criteria).toArray()
+        let users = await collection.find(criteria).toArray()
         users = users.map(user => {
             delete user.password
             user.createdAt = ObjectId(user._id).getTimestamp()
@@ -114,10 +114,9 @@ async function add(user) {
     }
 }
 
-async function updateUserIsSeller(userId) {
+async function updateUserIsSeller(userId){    
     const userToSave = await getById(userId)
     userToSave.isSeller = true
-
     const collection = await dbService.getCollection('user')
     await collection.updateOne({ _id: ObjectId(userId) }, { $set: userToSave })
 

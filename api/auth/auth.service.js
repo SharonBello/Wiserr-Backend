@@ -2,21 +2,30 @@ const Cryptr = require('cryptr')
 const bcrypt = require('bcrypt')
 const userService = require('../user/user.service')
 const logger = require('../../services/logger.service')
+
 const cryptr = new Cryptr(process.env.SECRET1 || 'Secret-Wiserr-1234')
 
 async function login(userName, password) {
+    try {
+        logger.debug(`auth.service - login with username: ${userName}`)
+        const user = await userService.getByUsername(userName)
 
-    logger.debug(`auth.service - login with username: ${userName}`)
-    const user = await userService.getByUsername(userName)
+        if (!user) return Promise.reject('Invalid username or password')
+                
+        // if (password !== user.password) return Promise.reject('Invalid username or password')
+        const match = await bcrypt.compare(password, user.password)
+        console.log('match', match)
+        if (!match) {
+            if (password !== user.password) return Promise.reject('Invalid username or password')
+        } 
 
-    if (!user) return Promise.reject('Invalid username or password')
-    // TODO: un-comment for real login
-    // const match = await bcrypt.compare(password, user.password)
-    // if (!match) return Promise.reject('Invalid username or password')
-
-    delete user.password
-    user._id = user._id.toString()
-    return user
+        delete user.password
+        user._id = user._id.toString()
+        return user
+    } catch (err) {
+        logger.error('cannot find events', err)
+        throw err
+    }
 }
 
 async function signup({ userName, password, fullname, imgUrl }) {

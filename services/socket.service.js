@@ -1,6 +1,6 @@
 const logger = require('./logger.service')
 
-var gIo = null
+let gIo = null
 
 function setupSocketAPI(http) {
   gIo = require('socket.io')(http, {
@@ -74,6 +74,7 @@ async function _getUserSocket(userId) {
   const socket = sockets.find(s => s.userId === userId)
   return socket
 }
+
 async function _getAllSockets() {
   // return all Socket instances
   const sockets = await gIo.fetchSockets()
@@ -81,10 +82,10 @@ async function _getAllSockets() {
 }
 
 async function _printSockets() {
-  const sockets = await _getAllSockets()
-
-  sockets.forEach(_printSocket)
+    const sockets = await _getAllSockets()
+    sockets.forEach(_printSocket)
 }
+
 function _printSocket(socket) {
   console.log(`Socket - socketId: ${socket.id} userId: ${socket.userId}`)
 }
@@ -92,5 +93,4 @@ function _printSocket(socket) {
 module.exports = {
   // set up the sockets service and define the API
   setupSocketAPI,
-
 }

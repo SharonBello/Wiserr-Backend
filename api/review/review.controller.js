@@ -31,10 +31,10 @@ async function deleteReview(req, res) {
 
 async function addReview(req, res) {
 
-    var loggedinUser = authService.validateToken(req.cookies.loginToken)
+    let loggedinUser = authService.validateToken(req.cookies.loginToken)
  
     try {
-        var review = req.body
+        let review = req.body
         review.byUserId = loggedinUser._id
         review = await reviewService.add(review)
         
@@ -42,7 +42,7 @@ async function addReview(req, res) {
         review.aboutUser = await userService.getById(review.aboutUserId)
         
         // Give the user credit for adding a review
-        // var user = await userService.getById(review.byUserId)
+        // let user = await userService.getById(review.byUserId)
         // user.score += 10
         // loggedinUser.score += 10
 

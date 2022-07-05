@@ -10,10 +10,9 @@ const router = express.Router()
 router.get('/', log, getGigs)
 router.get('/:id', getGigById)
 router.post('/', addGig)
-// router.post('/', requireAuth, requireAdmin, addGig)
 router.post('/:id', addReview)
 router.put('/:id', updateGig)
 router.put('/', updateGigRate)
-// router.delete('/:id', removeGig)
+
 
 module.exports = router

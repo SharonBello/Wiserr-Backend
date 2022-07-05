@@ -12,11 +12,10 @@ async function query(filterBy) {
         let orders = await collection.find(criteria).toArray()
         return orders
     } catch (err) {
-        logger.error('cannot find orders', err)
+        logger.error('Cannot find orders', err)
         throw err
     }
 }
-
 
 function _buildCriteria(filterBy) {
     let criteria = {}
@@ -47,7 +46,7 @@ async function getById(orderId) {
         const order = collection.findOne({ _id: ObjectId(orderId) })
         return order
     } catch (err) {
-        logger.error(`while finding order ${orderId}`, err)
+        logger.error(`While finding order ${orderId}`, err)
         throw err
     }
 }
@@ -58,7 +57,7 @@ async function remove(orderId) {
         await collection.deleteOne({ _id: ObjectId(orderId) })
         return orderId
     } catch (err) {
-        logger.error(`cannot remove order ${orderId}`, err)
+        logger.error(`Cannot remove order ${orderId}`, err)
         throw err
     }
 }
@@ -70,7 +69,7 @@ async function add(order) {
         await collection.insertOne(order)
         return order
     } catch (err) {
-        logger.error('cannot insert order', err)
+        logger.error('Cannot insert order', err)
         throw err
     }
 }
@@ -82,7 +81,7 @@ async function addOrderReview(order, review) {
         const updatedOrder = await collection.updateOne({ _id: id }, { $set: { ...order, review: review } })
         return updatedOrder
     } catch (err) {
-        logger.error('cannot add review', err)
+        logger.error('Cannot add review', err)
         throw err
     }
 }
