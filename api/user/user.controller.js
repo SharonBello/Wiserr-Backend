@@ -1,11 +1,9 @@
 const userService = require('./user.service')
-const socketService = require('../../services/socket.service')
 const logger = require('../../services/logger.service')
 
 async function getUser(req, res) {
     try {
         const user = await userService.getById(req.params.id)
-        console.log('user', user)
         res.send(user)
     } catch (err) {
         logger.error('Failed to get user', err)
