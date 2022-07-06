@@ -12,42 +12,42 @@ function setupSocketAPI(http) {
     socket.on('disconnect', socket => { })
 
     socket.on("join order", (userId) => {
-      socket.join(userId);
-      socket.orderChannel = userId;
-    });
+      socket.join(userId)
+      socket.orderChannel = userId
+    })
     socket.on("user-connected", (userId) => {
-      gIo.to(userId).emit("user-online", userId);
-    });
+      gIo.to(userId).emit("user-online", userId)
+    })
     socket.on("new order", (savedOrder) => {
       if (savedOrder.seller) {
         console.log('LINE 23 SAVED ORDER', savedOrder)
-        socket.to(savedOrder.seller._id).emit("added order", savedOrder);
+        socket.to(savedOrder.seller._id).emit("added order", savedOrder)
       }
-    });
+    })
     socket.on("new status", ({ order, notification }) => {
-      socket.to(order.buyer._id).emit("changed status", order);
-      socket.to(order.buyer._id).emit("order status", notification);
-    });
+      socket.to(order.buyer._id).emit("changed status", order)
+      socket.to(order.buyer._id).emit("order status", notification)
+    })
     socket.on("set-user-socket", (userId) => {
-      socket.userId = userId;
-      gIo.to(userId).emit("user-online", userId);
+      socket.userId = userId
+      gIo.to(userId).emit("user-online", userId)
     })
     socket.on("user-online", (userId) => {
-      socket.userId = userId;
-      gIo.to(userId).emit("user-online", userId);
-    });
+      socket.userId = userId
+      gIo.to(userId).emit("user-online", userId)
+    })
     socket.on("unset-user-socket", (userId) => {
 
-      delete socket.userId;
-      gIo.emit("user-offline", userId);
-    });
+      delete socket.userId
+      gIo.emit("user-offline", userId)
+    })
     socket.on("isUserConnected", async (userId) => {
-      const userSocket = await _getUserSocket(userId);
-      if (userSocket) gIo.emit("user-connection", userId);
+      const userSocket = await _getUserSocket(userId)
+      if (userSocket) gIo.emit("user-connection", userId)
       else {
-        gIo.emit("find-user", userId);
+        gIo.emit("find-user", userId)
       }
-    });
+    })
   })
 }
 
