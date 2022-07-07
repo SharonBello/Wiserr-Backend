@@ -87,8 +87,7 @@ async function removeGig(req, res) {
 
   try {
     const gigId = req.params.id;
-    const removedId = await gigService.remove(gigId)
-    res.send(removedId)
+    await gigService.remove(gigId)    
   } catch (err) {
     logger.error('Failed to remove gig', err)
     res.status(500).send({ err: 'Failed to remove gig' })
@@ -99,8 +98,8 @@ module.exports = {
   getGigs,
   getGigById,
   addGig,
-  // addReview,
   updateGig,
+  removeGig,
+  // addReview,
   // updateGigRate,
-  removeGig
 }

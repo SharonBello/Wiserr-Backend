@@ -6,7 +6,7 @@ const userService = require('../user/user.service');
 const orderService = require('../order/order.service')
 
 async function query(filterBy) {
-
+console.log('filterBy',filterBy )
     try {
 
         const criteria = _buildCriteria(filterBy)

@@ -12,6 +12,7 @@ router.get('/:id', getGigById)
 router.post('/', addGig)
 // router.post('/:id', addReview)
 router.put('/:id', updateGig)
+router.delete('/:id',  removeGig)
 // router.put('/', updateGigRate)
 
 
