@@ -6,7 +6,7 @@ const userService = require('../user/user.service');
 const orderService = require('../order/order.service')
 
 async function query(filterBy) {
-console.log('filterBy',filterBy )
+// console.log('filterBy',filterBy )
     try {
 
         const criteria = _buildCriteria(filterBy)
@@ -81,9 +81,8 @@ async function getOrderQty(gigs, orders) {
 async function getById(gigId) {
 
     try {
-
         const collection = await dbService.getCollection('gig')
-        const gig = collection.findOne({ _id: ObjectId(gigId) })
+        const gig = collection.findOne({ _id: ObjectId(gigId) })        
         return gig
     } catch (err) {
         logger.error(`While finding gig ${gigId}`, err)
@@ -116,13 +115,14 @@ async function add(gig) {
 }
 
 
-async function update(gig) {
+async function edit(gig) {
     try {
-        let id = ObjectId(gig._id)
+        const currGig = gig
+        // let id = ObjectId(gig._id)
+        let id = gig._id
         delete gig._id
         const collection = await dbService.getCollection('gig')
         await collection.updateOne({ _id: ObjectId(id) }, { $set: { ...gig } })
-
         return gig
     } catch (err) {
         logger.error(`Cannot update gig ${gigId}`, err)
@@ -147,7 +147,7 @@ module.exports = {
     query,
     getById,
     add,
-    update,
+    edit,
     // updateGigRating,    
     getOrderQty
 }

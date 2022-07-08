@@ -18,9 +18,8 @@ function setupSocketAPI(http) {
     socket.on("user-connected", (userId) => {
       gIo.to(userId).emit("user-online", userId)
     })
-    socket.on("new order", (savedOrder) => {
-      if (savedOrder.seller) {
-        console.log('LINE 23 SAVED ORDER', savedOrder)
+    socket.on("new order", (savedOrder) => {      
+      if (savedOrder.seller) {        
         socket.to(savedOrder.seller._id).emit("added order", savedOrder)
       }
     })

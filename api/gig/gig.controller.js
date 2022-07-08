@@ -56,16 +56,16 @@ async function addGig(req, res) {
 // }
 
 // PUT (Update gig)
-async function updateGig(req, res) {
+async function editGig(req, res) {
 
   try {
     const gig = req.body;
     if (!gig.reviewsQty) gig.reviewsQty = getRandomInt(50, 1200)
-    const updatedGig = await gigService.update(gig)
-    res.json(updatedGig)
+    const editGig = await gigService.edit(gig)
+    res.json(editGig)
   } catch (err) {
-    logger.error('Failed to update gig', err)
-    res.status(500).send({ err: 'Failed to update gig' })
+    logger.error('Failed to edit gig', err)
+    res.status(500).send({ err: 'Failed to edit gig' })
   }
 }
 
@@ -98,7 +98,7 @@ module.exports = {
   getGigs,
   getGigById,
   addGig,
-  updateGig,
+  editGig,
   removeGig,
   // addReview,
   // updateGigRate,

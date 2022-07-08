@@ -30,6 +30,7 @@ async function getOrderById(req, res) {
 async function addOrder(req, res) {
   try {
     const order = req.body;
+    // console.log('order in order controller', order)
     const addedOrder = await orderService.add(order)
     logger.info('From order controller - addOrder(req, res)', addedOrder)
     res.json(addedOrder)

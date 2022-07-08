@@ -52,6 +52,7 @@ async function getById(orderId) {
 async function add(order) {
 
     try {
+        // console.log('order in order service ',order )
         const collection = await dbService.getCollection('order')
         await collection.insertOne(order)
         return order
