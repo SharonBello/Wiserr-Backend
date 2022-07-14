@@ -1,6 +1,6 @@
 const logger = require('./logger.service')
 
-var gIo = null
+let gIo = null
 
 function setupSocketAPI(http) {
   gIo = require('socket.io')(http, {
@@ -12,42 +12,41 @@ function setupSocketAPI(http) {
     socket.on('disconnect', socket => { })
 
     socket.on("join order", (userId) => {
-      socket.join(userId);
-      socket.orderChannel = userId;
-    });
+      socket.join(userId)
+      socket.orderChannel = userId
+    })
     socket.on("user-connected", (userId) => {
-      gIo.to(userId).emit("user-online", userId);
-    });
-    socket.on("new order", (savedOrder) => {
-      if (savedOrder.seller) {
-        console.log('LINE 23 SAVED ORDER', savedOrder)
-        socket.to(savedOrder.seller._id).emit("added order", savedOrder);
+      gIo.to(userId).emit("user-online", userId)
+    })
+    socket.on("new order", (savedOrder) => {      
+      if (savedOrder.seller) {        
+        socket.to(savedOrder.seller._id).emit("added order", savedOrder)
       }
-    });
+    })
     socket.on("new status", ({ order, notification }) => {
-      socket.to(order.buyer._id).emit("changed status", order);
-      socket.to(order.buyer._id).emit("order status", notification);
-    });
+      socket.to(order.buyer._id).emit("changed status", order)
+      socket.to(order.buyer._id).emit("order status", notification)
+    })
     socket.on("set-user-socket", (userId) => {
-      socket.userId = userId;
-      gIo.to(userId).emit("user-online", userId);
+      socket.userId = userId
+      gIo.to(userId).emit("user-online", userId)
     })
     socket.on("user-online", (userId) => {
-      socket.userId = userId;
-      gIo.to(userId).emit("user-online", userId);
-    });
+      socket.userId = userId
+      gIo.to(userId).emit("user-online", userId)
+    })
     socket.on("unset-user-socket", (userId) => {
 
-      delete socket.userId;
-      gIo.emit("user-offline", userId);
-    });
+      delete socket.userId
+      gIo.emit("user-offline", userId)
+    })
     socket.on("isUserConnected", async (userId) => {
-      const userSocket = await _getUserSocket(userId);
-      if (userSocket) gIo.emit("user-connection", userId);
+      const userSocket = await _getUserSocket(userId)
+      if (userSocket) gIo.emit("user-connection", userId)
       else {
-        gIo.emit("find-user", userId);
+        gIo.emit("find-user", userId)
       }
-    });
+    })
   })
 }
 
@@ -74,6 +73,7 @@ async function _getUserSocket(userId) {
   const socket = sockets.find(s => s.userId === userId)
   return socket
 }
+
 async function _getAllSockets() {
   // return all Socket instances
   const sockets = await gIo.fetchSockets()
@@ -81,10 +81,10 @@ async function _getAllSockets() {
 }
 
 async function _printSockets() {
-  const sockets = await _getAllSockets()
-
-  sockets.forEach(_printSocket)
+    const sockets = await _getAllSockets()
+    sockets.forEach(_printSocket)
 }
+
 function _printSocket(socket) {
   console.log(`Socket - socketId: ${socket.id} userId: ${socket.userId}`)
 }
@@ -92,5 +92,4 @@ function _printSocket(socket) {
 module.exports = {
   // set up the sockets service and define the API
   setupSocketAPI,
-
 }

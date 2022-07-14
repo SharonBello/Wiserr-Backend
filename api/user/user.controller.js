@@ -11,6 +11,17 @@ async function getUser(req, res) {
     }
 }
 
+async function getGoogleUser(req, res) {
+    try {
+        const user = await userService.getByGoogleId(req.params.id);
+        if (user) req.session.user = user;
+        res.send(user);
+    } catch (err) {
+        logger.error("Failed to get google user", err);
+        res.status(500).send({ err: "Failed to get google user" });
+    }
+}
+
 async function getUsers(req, res) {
     try {
         const filterBy = {
@@ -25,30 +36,9 @@ async function getUsers(req, res) {
     }
 }
 
-async function deleteUser(req, res) {
-    try {
-        await userService.remove(req.params.id)
-        res.send({ msg: 'Deleted successfully' })
-    } catch (err) {
-        logger.error('Failed to delete user', err)
-        res.status(500).send({ err: 'Failed to delete user' })
-    }
-}
-
-async function updateUser(req, res) {
-    try {
-        const user = req.body
-        const savedUser = await userService.update(user)
-        res.send(savedUser)
-    } catch (err) {
-        logger.error('Failed to update user', err)
-        res.status(500).send({ err: 'Failed to update user' })
-    }
-}
 
 module.exports = {
     getUser,
     getUsers,
-    deleteUser,
-    updateUser
+    getGoogleUser,
 }
