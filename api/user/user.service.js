@@ -11,6 +11,7 @@ module.exports = {
     add,
     updateUserIsSeller,
     getByGoogleId,
+    checkIfGoogleAccount,
 }
 
 async function query(filterBy = {}) {
@@ -93,6 +94,20 @@ async function add(user) {
     } catch (err) {
         logger.error('Cannot add user', err)
         throw err
+    }
+}
+
+async function checkIfGoogleAccount(userDeatils) {
+    const collection = await dbService.getCollection('user')
+    try {
+        const user = await collection.findOne({
+            userName: userDeatils.userName,
+            password: userDeatils.password,
+            imgUrl: userDeatils.imgUrl
+        });
+        return user
+    } catch {
+        return 0
     }
 }
 

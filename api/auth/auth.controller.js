@@ -21,10 +21,14 @@ async function login(req, res) {
 }
 
 async function signupGoogle(req, res) {
-    console.log('auth controller line 20')
     try {
         const credentials = req.body
-        userService.add(credentials)
+        console.log('auth controller line 26')
+        let userExisting = await userService.checkIfGoogleAccount(credentials) 
+        if(!userExisting) {
+            console.log('!userExisting')    
+            userService.add(credentials)
+        }
         const user = await authService.login(credentials.userName, credentials.password)
         logger.info('User signup:', user)
         const loginToken = authService.getLoginToken(user)
