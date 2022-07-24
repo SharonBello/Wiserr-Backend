@@ -3,6 +3,8 @@ const bcrypt = require('bcrypt')
 const userService = require('../user/user.service')
 const logger = require('../../services/logger.service')
 const cryptr = new Cryptr(process.env.SECRET1 || 'Secret-Wiserr-1234')
+const ObjectId = require('mongodb').ObjectId
+const dbService = require('../../services/db.service')
 
 async function login(userName, password) {
 
@@ -45,10 +47,25 @@ function validateToken(loginToken) {
     return null
 }
 
+async function checkIfGoogleAccount(userDeatils) {
+    const collection = await dbService.getCollection('user')
+    try {
+        const user = await collection.findOne({
+            userName: userDeatils.userName,
+            password: userDeatils.password,
+            imgUrl: userDeatils.imgUrl
+        });
+        return user
+    } catch {
+        return 0
+    }
+}
+
 
 module.exports = {
     signup,
     login,
     getLoginToken,
-    validateToken
+    validateToken,
+    checkIfGoogleAccount
 }

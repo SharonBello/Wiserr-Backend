@@ -10,8 +10,6 @@ module.exports = {
     getByUsername,
     add,
     updateUserIsSeller,
-    getByGoogleId,
-    checkIfGoogleAccount,
 }
 
 async function query(filterBy = {}) {
@@ -28,19 +26,6 @@ async function query(filterBy = {}) {
     } catch (err) {
         logger.error('Cannot find users', err)
         throw err
-    }
-}
-
-async function getByGoogleId(googleId) {
-    try {
-        const collection = await dbService.getCollection("user");
-        const user = await collection.findOne({ googleId: googleId });
-        delete user.password;
-        user.createdAt = ObjectId(user._id).getTimestamp();
-        return user;
-    } catch (err) {
-        logger.error(`while finding user ${userId}`, err);
-        throw err;
     }
 }
 
@@ -97,19 +82,7 @@ async function add(user) {
     }
 }
 
-async function checkIfGoogleAccount(userDeatils) {
-    const collection = await dbService.getCollection('user')
-    try {
-        const user = await collection.findOne({
-            userName: userDeatils.userName,
-            password: userDeatils.password,
-            imgUrl: userDeatils.imgUrl
-        });
-        return user
-    } catch {
-        return 0
-    }
-}
+
 
 async function updateUserIsSeller(userId) {
     const userToSave = await getById(userId)

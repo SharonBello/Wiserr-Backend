@@ -23,8 +23,7 @@ async function login(req, res) {
 async function signupGoogle(req, res) {
     try {
         const credentials = req.body
-        console.log('auth controller line 26')
-        let userExisting = await userService.checkIfGoogleAccount(credentials) 
+        let userExisting = await authService.checkIfGoogleAccount(credentials) 
         if(!userExisting) {
             console.log('!userExisting')    
             userService.add(credentials)
