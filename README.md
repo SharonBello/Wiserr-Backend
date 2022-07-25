@@ -4,25 +4,21 @@
 Mock Fiverr web app built with REST API MERN that is used as an e-commerce platform for freelancers and companies to sell their services through gigs. You can list your offer or apply for small one-off jobs, or gigs, online. The app contains a diverse range of jobs, ranging from graphic design services to business solutions. 
 Link to frontend repo: https://github.com/Amit-R328/wiserr
 
+## Demo
+
+http://wiserr-app.herokuapp.com/
+
+## Screenshots
+
+![App Screenshot](https://res.cloudinary.com/dcbbqlssh/image/upload/v1658752267/readme/smartmockups_l60q8e4v_ugect0.png)
+![App Screenshot](https://res.cloudinary.com/dcbbqlssh/image/upload/v1658743740/readme/smartmockups_l60l1rxi_w0ulci.png)
+
+
 ## Authors
 
 - [@Amit Rozen](https://www.github.com/Amit-R328)
 - [@Sharon Bello](https://www.github.com/SharonBello)
 - [@Rinat Brandes](https://www.github.com/RinatBrandes)
-
-
-## Demo
-
-http://wiserr-app.herokuapp.com/
-
-## Deployment
-
-To deploy this project run
-
-```bash
-    npm install
-    npm start
-```
 
 
 ## Tech Stack
@@ -48,6 +44,14 @@ To deploy this project run
 - Seller's homepage
 - Step by step add-gig
 
+## Deployment
+
+To deploy this project run
+
+```bash
+    npm install
+    npm start
+```
 
 ## Feedback
 
@@ -60,26 +64,21 @@ We learned how to implement advanced features such as sockets, working with Mong
 
 Our schedule was very tight as we had about ten days to complete this monumental task. In particular, the main image carousel on the homepage presented a challenge. After trying a number of libraries, we developed our own solution.
 
-
-
 ## Optimizations
 
 A number of components of the code have been refactored. Utilizing map methods to improve future app scalability as well as enhancing header functionality by using React hooks are some of these techniques.
 
-## Screenshots
-
-![App Screenshot](https://res.cloudinary.com/dcbbqlssh/image/upload/v1658752267/readme/smartmockups_l60q8e4v_ugect0.png)
-![App Screenshot](https://res.cloudinary.com/dcbbqlssh/image/upload/v1658743740/readme/smartmockups_l60l1rxi_w0ulci.png)
-
-
 ## Run Locally
 
-Clone the project
+Clone the project - Frontend
 
 ```bash
-  //Frontend
   git clone https://github.com/Amit-R328/wiserr.git
-  //Backend
+```
+
+Clone the project - Backend
+
+```bash
   git clone https://github.com/SharonBello/Wiserr-Backend.git
 ```
 
@@ -100,3 +99,4 @@ Start the server
 ```bash
   npm start
 ```
+
