@@ -2,11 +2,11 @@
 # Wiserr-Backend
 
 Mock Fiverr web app built with REST API MERN that is used as an e-commerce platform for freelancers and companies to sell their services through gigs. You can list your offer or apply for small one-off jobs, or gigs, online. The app contains a diverse range of jobs, ranging from graphic design services to business solutions. 
-Link to frontend repo: https://github.com/Amit-R328/wiserr
+Link to frontend repo: https://github.com/SharonBello/Wiserr-Frontend
 
 ## Demo
 
-http://wiserr-app.herokuapp.com/
+https://wiserr.onrender.com/
 
 ## Screenshots
 
@@ -19,6 +19,8 @@ http://wiserr-app.herokuapp.com/
 - [@Amit Rozen](https://www.github.com/Amit-R328)
 - [@Sharon Bello](https://www.github.com/SharonBello)
 - [@Rinat Brandes](https://www.github.com/RinatBrandes)
+
+
 
 
 ## Tech Stack
@@ -43,6 +45,7 @@ http://wiserr-app.herokuapp.com/
 - Live order update
 - Seller's homepage
 - Step by step add-gig
+- accessibility
 
 ## Deployment
 
@@ -64,6 +67,8 @@ We learned how to implement advanced features such as sockets, working with Mong
 
 Our schedule was very tight as we had about ten days to complete this monumental task. In particular, the main image carousel on the homepage presented a challenge. After trying a number of libraries, we developed our own solution.
 
+
+
 ## Optimizations
 
 A number of components of the code have been refactored. Utilizing map methods to improve future app scalability as well as enhancing header functionality by using React hooks are some of these techniques.
@@ -82,6 +87,7 @@ Clone the project - Backend
   git clone https://github.com/SharonBello/Wiserr-Backend.git
 ```
 
+
 Go to the project directory
 
 ```bash
@@ -99,4 +105,5 @@ Start the server
 ```bash
   npm start
 ```
+
 
